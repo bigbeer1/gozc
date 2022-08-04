@@ -1,51 +1,124 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
-	"gozc/gen"
+	"github.com/urfave/cli/v2"
+	"gozc/gen/api"
+	"gozc/gen/rpc"
 	"gozc/parser"
+	"os"
+	"strings"
 )
 
 func main() {
 
 	flag.Parse()
-	srcPath := "E:\\Gopath\\src\\sql2pb-main\\model\\sql\\sys_admin.sql"
-	// 讲sql文件 转换成tables
-	tables, err := parser.Parse(srcPath)
-	if err != nil {
+
+	local := []*cli.Command{
+		runCmd,
+	}
+	app := &cli.App{
+		Name:                 "gozc",
+		Usage:                "go-zero CRUD生成器",
+		Version:              "1.0",
+		EnableBashCompletion: true,
+		Commands:             local,
+	}
+	app.Setup()
+
+	//os.Args = append(os.Args, "run", "--sql=./sys_auth.sql")
+
+	if err := app.Run(os.Args); err != nil {
 		fmt.Println(err)
+		return
 	}
 
-	m := make(map[string]*gen.CodeTuple)
+}
 
+var runCmd = &cli.Command{
+	Name:  "run",
+	Usage: "Print worker info",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:  "sql",
+			Usage: "sql文件路径",
+			Value: "",
+		},
+	},
+	Before: func(cctx *cli.Context) error {
+		data := os.Getenv("GOZC_PATH")
+		if data == "" {
+			return errors.New("请先设置环境变量GOZC_PATH路径指向Tpl文件夹")
+		}
+		fmt.Println("GOZC_PATH路径:" + data)
+		return nil
+	},
+	Action: func(cctx *cli.Context) error {
+		var srcPath string
+		srcPath = cctx.String("sql")
+		if srcPath == "" {
+			return errors.New("请传入SQL文件路径地址")
+		}
+		if strings.Contains(srcPath, ".\\") {
+			dir, _ := os.Getwd()
+			println(dir)
+			srcPath = strings.Replace(srcPath, ".\\", dir+"\\", -1)
+		}
+		if strings.Contains(srcPath, "./") {
+			dir, _ := os.Getwd()
+			println(dir)
+			srcPath = strings.Replace(srcPath, "./", dir+"\\", -1)
+		}
+		fmt.Println(srcPath)
+		// 讲sql文件 转换成tables
+		tables, err := parser.Parse(srcPath)
+		if err != nil {
+			return err
+		}
+		err = CreateApiData(tables, srcPath)
+		if err != nil {
+			return err
+		}
+
+		err = CreateRpcData(tables, srcPath)
+		if err != nil {
+			return err
+		}
+		return nil
+	},
+}
+
+func CreateApiData(tables []*parser.Table, srcPath string) error {
+	// 生成API
+	apiData := make(map[string]*api.CodeTuple)
 	for _, e := range tables {
-		Api, err := gen.GenApiModel(*e, "admin", "api")
+		Api, err := api.GenApiModel(*e, "admin", "api")
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-		ApiInsert, err := gen.GenApiModel(*e, "admin", "Insert")
+		ApiInsert, err := api.GenApiModel(*e, "admin", "Insert")
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-		ApiDelete, err := gen.GenApiModel(*e, "admin", "delete")
+		ApiDelete, err := api.GenApiModel(*e, "admin", "delete")
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-		ApiUpdate, err := gen.GenApiModel(*e, "admin", "update")
+		ApiUpdate, err := api.GenApiModel(*e, "admin", "update")
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-		ApiFindOne, err := gen.GenApiModel(*e, "admin", "findOne")
+		ApiFindOne, err := api.GenApiModel(*e, "admin", "findOne")
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-		ApiFindList, err := gen.GenApiModel(*e, "admin", "findList")
+		ApiFindList, err := api.GenApiModel(*e, "admin", "findList")
 		if err != nil {
-			fmt.Println(err)
+			return err
 		}
-
-		m[e.Name.Source()] = &gen.CodeTuple{
+		apiData[e.Name.Source()] = &api.CodeTuple{
 			Api:         Api,
 			ApiInsert:   ApiInsert,
 			ApiDelete:   ApiDelete,
@@ -54,8 +127,47 @@ func main() {
 			ApiFindList: ApiFindList,
 		}
 	}
+	err := api.CreateFileApi(apiData, srcPath)
+	return err
+}
 
-	cc := gen.CreateFile(m, srcPath)
-	fmt.Println(cc)
-
+func CreateRpcData(tables []*parser.Table, srcPath string) error {
+	// 生成Rpc
+	rpcData := make(map[string]*rpc.CodeTuple)
+	for _, e := range tables {
+		Rpc, err := rpc.GenRpcModel(*e, "admin", "rpc")
+		if err != nil {
+			return err
+		}
+		RpcInsert, err := rpc.GenRpcModel(*e, "admin", "Insert")
+		if err != nil {
+			return err
+		}
+		RpcDelete, err := rpc.GenRpcModel(*e, "admin", "delete")
+		if err != nil {
+			return err
+		}
+		RpcUpdate, err := rpc.GenRpcModel(*e, "admin", "update")
+		if err != nil {
+			return err
+		}
+		RpcFindOne, err := rpc.GenRpcModel(*e, "admin", "findOne")
+		if err != nil {
+			return err
+		}
+		RpcFindList, err := rpc.GenRpcModel(*e, "admin", "findList")
+		if err != nil {
+			return err
+		}
+		rpcData[e.Name.Source()] = &rpc.CodeTuple{
+			Rpc:         Rpc,
+			RpcInsert:   RpcInsert,
+			RpcDelete:   RpcDelete,
+			RpcUpdate:   RpcUpdate,
+			RpcFindOne:  RpcFindOne,
+			RpcFindList: RpcFindList,
+		}
+	}
+	err := rpc.CreateFileRpc(rpcData, srcPath)
+	return err
 }

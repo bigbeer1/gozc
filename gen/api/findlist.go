@@ -1,13 +1,14 @@
-package gen
+package api
 
 import (
 	"fmt"
 	"github.com/zeromicro/go-zero/tools/goctl/util"
 	"gozc/tools/pathx"
+	"gozc/tools/stringx"
 	"strings"
 )
 
-func genFindList(table Table, pkgName string) (string, error) {
+func genFindList(table Table, modelName stringx.String) (string, error) {
 	datas := make([]string, 0)
 	modeldatas := make([]string, 0)
 	var initmodel string
@@ -58,26 +59,36 @@ func genFindList(table Table, pkgName string) (string, error) {
 				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "int64", field.Name.Source(), field.Comment)
 			case "int64":
 				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "int64", field.Name.Source(), field.Comment)
+			case "int32":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "int64", field.Name.Source(), field.Comment)
+			case "float64":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float64", field.Name.Source(), field.Comment)
+			case "float32":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float32", field.Name.Source(), field.Comment)
+			case "NullFloat32":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float32", field.Name.Source(), field.Comment)
+			case "NullFloat64":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float64", field.Name.Source(), field.Comment)
 			default:
 				continue
 			}
 		}
 		modeldatas = append(modeldatas, model)
-
 	}
 
 	data := strings.Join(datas, "\n\t\t")
 	modeldata := strings.Join(modeldatas, ",\n\t")
 	camel := table.Name.ToCamel()
-	text, err := pathx.LoadTemplate(category, findlistTemplateFile, "")
+	amodelname := modelName.ToCamel()
+	text, err := pathx.LoadTemplate(category, findListTemplateFile, "")
 	if err != nil {
 		return "", err
 	}
-	output, err := util.With("insert").
+	output, err := util.With("findList").
 		Parse(text).
 		Execute(map[string]interface{}{
 			"filename":  camel,
-			"modelname": pkgName,
+			"modelname": amodelname,
 			"data":      data,
 			"modeldata": modeldata,
 		})

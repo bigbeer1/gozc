@@ -1,36 +1,43 @@
-package gen
+package api
 
 import (
 	"fmt"
 	"github.com/zeromicro/go-zero/tools/goctl/util"
 	"gozc/tools/pathx"
+	"gozc/tools/stringx"
 	"strings"
 )
 
-func genApi(table Table, pkgName string) (string, error) {
+func genApi(table Table, pkgName stringx.String) (string, error) {
 
 	camel := table.Name.ToCamel()
+	xcamel := table.Name.ToCamelWithStartLower()
 
-	add := GetData(table, insertTemplateFile)
-	del := GetData(table, deleteTemplateFile)
-	up := GetData(table, updateTemplateFile)
-	list := GetData(table, findlistTemplateFile)
-	info := GetData(table, findOneTemplateFile)
+	var modelname = pkgName.Lower()
+	var amodelname = pkgName.ToCamel()
+
+	add := GetApiData(table, insertTemplateFile)
+	del := GetApiData(table, deleteTemplateFile)
+	up := GetApiData(table, updateTemplateFile)
+	list := GetApiData(table, findListTemplateFile)
+	info := GetApiData(table, findOneTemplateFile)
 
 	text, err := pathx.LoadTemplate(category, apiTemplateFile, "")
 	if err != nil {
 		return "", err
 	}
-	output, err := util.With("insert").
+	output, err := util.With("api").
 		Parse(text).
 		Execute(map[string]interface{}{
-			"filename":  camel,
-			"modelname": pkgName,
-			"Add":       add,
-			"Del":       del,
-			"Up":        up,
-			"List":      list,
-			"Info":      info,
+			"filename":   camel,
+			"xfilename":  xcamel,
+			"modelname":  modelname,
+			"Amodelname": amodelname,
+			"Add":        add,
+			"Del":        del,
+			"Up":         up,
+			"List":       list,
+			"Info":       info,
 		})
 	if err != nil {
 		return "", err
@@ -39,12 +46,12 @@ func genApi(table Table, pkgName string) (string, error) {
 	return output.String(), nil
 }
 
-func GetData(table Table, dataType string) string {
+func GetApiData(table Table, dataType string) string {
 	modeldatas := make([]string, 0)
 	var initmodel string
 	var reqType = "json"
 	var reqTypeData string
-	if dataType == findlistTemplateFile {
+	if dataType == findListTemplateFile {
 		//添加分页
 		initmodel = fmt.Sprintf("%s  %s  `form:\"%s\"`  // %s", "Current", "int64", "current,default=1,optional", "页码")
 		modeldatas = append(modeldatas, initmodel)
@@ -52,11 +59,17 @@ func GetData(table Table, dataType string) string {
 		modeldatas = append(modeldatas, initmodel)
 		reqType = "form"
 	}
+	if dataType == deleteTemplateFile {
+		reqType = "path"
+	}
+	if dataType == findOneTemplateFile {
+		reqType = "form"
+	}
 
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
 		switch dataType {
-		case findlistTemplateFile:
+		case findListTemplateFile:
 			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
 				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
 				continue
@@ -105,6 +118,16 @@ func GetData(table Table, dataType string) string {
 				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
 			case "int64":
 				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
+			case "int32":
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
+			case "float64":
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "float64", reqType, reqTypeData, field.Comment)
+			case "float32":
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "float32", reqType, reqTypeData, field.Comment)
+			case "NullFloat32":
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "float32", reqType, reqTypeData, field.Comment)
+			case "NullFloat64":
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "float64", reqType, reqTypeData, field.Comment)
 			default:
 				continue
 			}

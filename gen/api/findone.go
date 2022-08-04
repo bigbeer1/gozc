@@ -1,13 +1,14 @@
-package gen
+package api
 
 import (
 	"fmt"
 	"github.com/zeromicro/go-zero/tools/goctl/util"
 	"gozc/tools/pathx"
+	"gozc/tools/stringx"
 	"strings"
 )
 
-func genFindOne(table Table, pkgName string) (string, error) {
+func genFindOne(table Table, modelName stringx.String) (string, error) {
 	datas := make([]string, 0)
 	modeldatas := make([]string, 0)
 	for _, field := range table.Fields {
@@ -49,6 +50,16 @@ func genFindOne(table Table, pkgName string) (string, error) {
 				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "int64", field.Name.Source(), field.Comment)
 			case "int64":
 				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "int64", field.Name.Source(), field.Comment)
+			case "int32":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "int64", field.Name.Source(), field.Comment)
+			case "float64":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float64", field.Name.Source(), field.Comment)
+			case "float32":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float32", field.Name.Source(), field.Comment)
+			case "NullFloat32":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float32", field.Name.Source(), field.Comment)
+			case "NullFloat64":
+				model = fmt.Sprintf("%s  %s  `json:\"%s\"`  // %s", camel, "float64", field.Name.Source(), field.Comment)
 			default:
 				continue
 			}
@@ -60,15 +71,16 @@ func genFindOne(table Table, pkgName string) (string, error) {
 	data := strings.Join(datas, "\n\t\t")
 	modeldata := strings.Join(modeldatas, ",\n\t")
 	camel := table.Name.ToCamel()
+	amodelname := modelName.ToCamel()
 	text, err := pathx.LoadTemplate(category, findOneTemplateFile, "")
 	if err != nil {
 		return "", err
 	}
-	output, err := util.With("insert").
+	output, err := util.With("findOne").
 		Parse(text).
 		Execute(map[string]interface{}{
 			"filename":  camel,
-			"modelname": pkgName,
+			"modelname": amodelname,
 			"data":      data,
 			"modeldata": modeldata,
 		})
