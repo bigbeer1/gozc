@@ -18,7 +18,7 @@ func genInsert(table Table, modelName stringx.String) (string, error) {
 		var model string
 		switch camel {
 		case "CreatedName":
-			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, camel, field.Comment)
+			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, "NickName", field.Comment)
 		case "TenantId":
 			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, camel, field.Comment)
 		default:
@@ -29,6 +29,7 @@ func genInsert(table Table, modelName stringx.String) (string, error) {
 	data := strings.Join(datas, "\n\t\t")
 	camel := table.Name.ToCamel()
 	amodelname := modelName.ToCamel()
+	xmodelname := modelName.Lower()
 
 	text, err := pathx.LoadTemplate(category, insertTemplateFile, "")
 	if err != nil {
@@ -37,9 +38,10 @@ func genInsert(table Table, modelName stringx.String) (string, error) {
 	output, err := util.With("insert").
 		Parse(text).
 		Execute(map[string]interface{}{
-			"filename":  camel,
-			"modelname": amodelname,
-			"data":      data,
+			"filename":   camel,
+			"modelname":  amodelname,
+			"xmodelname": xmodelname,
+			"data":       data,
 		})
 	if err != nil {
 		return "", err

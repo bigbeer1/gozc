@@ -52,6 +52,16 @@ func genRpc(table Table, pkgName stringx.String) (string, error) {
 func GetRpcData(table Table, dataType string) string {
 	modeldatas := make([]string, 0)
 	var count = 0
+
+	if dataType == findListTemplateFile {
+		var model string
+		model = fmt.Sprintf("%s  %s = %v;  // %s", "int64", "Current", 1, "页码")
+		modeldatas = append(modeldatas, model)
+		model = fmt.Sprintf("%s  %s = %v;  // %s", "int64", "PageSize", 2, "页数")
+		modeldatas = append(modeldatas, model)
+		count = 2
+	}
+
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
 		lowerCamel := util.SafeString(field.Name.Lower())

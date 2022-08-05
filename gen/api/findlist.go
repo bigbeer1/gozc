@@ -80,6 +80,7 @@ func genFindList(table Table, modelName stringx.String) (string, error) {
 	modeldata := strings.Join(modeldatas, ",\n\t")
 	camel := table.Name.ToCamel()
 	amodelname := modelName.ToCamel()
+	xmodelname := modelName.Lower()
 	text, err := pathx.LoadTemplate(category, findListTemplateFile, "")
 	if err != nil {
 		return "", err
@@ -87,10 +88,11 @@ func genFindList(table Table, modelName stringx.String) (string, error) {
 	output, err := util.With("findList").
 		Parse(text).
 		Execute(map[string]interface{}{
-			"filename":  camel,
-			"modelname": amodelname,
-			"data":      data,
-			"modeldata": modeldata,
+			"filename":   camel,
+			"modelname":  amodelname,
+			"xmodelname": xmodelname,
+			"data":       data,
+			"modeldata":  modeldata,
 		})
 	if err != nil {
 		return "", err

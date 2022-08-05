@@ -18,7 +18,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 		var model string
 		switch camel {
 		case "DeletedName":
-			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, camel, field.Comment)
+			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, "NickName", field.Comment)
 		case "TenantId":
 			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, camel, field.Comment)
 		case "Id":
@@ -32,6 +32,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	data := strings.Join(datas, "\n\t\t")
 	camel := table.Name.ToCamel()
 	amodelname := modelName.ToCamel()
+	xmodelname := modelName.Lower()
 	text, err := pathx.LoadTemplate(category, deleteTemplateFile, "")
 	if err != nil {
 		return "", err
@@ -39,9 +40,10 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	output, err := util.With("delete").
 		Parse(text).
 		Execute(map[string]interface{}{
-			"filename":  camel,
-			"modelname": amodelname,
-			"data":      data,
+			"filename":   camel,
+			"modelname":  amodelname,
+			"xmodelname": xmodelname,
+			"data":       data,
 		})
 	if err != nil {
 		return "", err

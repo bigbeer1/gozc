@@ -13,7 +13,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	var deletedAtData = ""
 	var tenantCount = 0
 	var tenantData = ""
-	var delType = "delete(id)"
+	var delType = "Delete(l.ctx,id)"
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
 		switch camel {
@@ -31,7 +31,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 
 	if deletedCount > 0 {
 		deletedData = "res.DeletedAt.Time = time.Now()\n\tres.DeletedAt.Valid = true\n\tres.DeletedName.String = in.DeletedName\n\tres.DeletedName.Valid = true"
-		delType = "update(res)"
+		delType = "Update(l.ctx,res)"
 		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, errors.New(\"%s该ID已被删除：\" + in.Id)\n\t}", camel)
 	}
 

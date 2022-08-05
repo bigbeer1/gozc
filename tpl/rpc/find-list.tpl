@@ -26,9 +26,9 @@ func (l *{{.filename}}ListLogic) {{.filename}}List(in *{{.xmodelname}}client.{{.
     	return nil, err
     }
 
-    var list []*{{.xmodelname}}.{{.filename}}ListData
-    for _, item := range *all {
-    	list = append(list, &{{.xmodelname}}.{{.filename}}ListData{
+    var list []*{{.xmodelname}}client.{{.filename}}ListData
+    for _, item := range all {
+    	list = append(list, &{{.xmodelname}}client.{{.filename}}ListData{
     		{{.findlistData}}
     	})
     }

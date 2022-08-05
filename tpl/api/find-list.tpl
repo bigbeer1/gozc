@@ -1,15 +1,15 @@
-func (l *{{.filename}}ListLogic) {{.filename}}List(req types.{{.filename}}ListRequest) (*types.Response, error) {
+func (l *{{.filename}}ListLogic) {{.filename}}List(req *types.{{.filename}}ListRequest) (*types.Response, error) {
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	all, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}List(l.ctx, &{{.modelname}}.{{.filename}}ListReq{
+	all, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}List(l.ctx, &{{.xmodelname}}client.{{.filename}}ListReq{
 		{{.data}}
 	})
 	if err != nil {
 		return nil, common.NewDefaultError(err.Error())
 	}
 	
-	var result {{.filename}}FindOneResp
+	var result {{.filename}}ListResp
 	_ = copier.Copy(&result, all)
 	
 	return &types.Response{

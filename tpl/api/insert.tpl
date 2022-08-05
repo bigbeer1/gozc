@@ -1,8 +1,8 @@
-func (l *{{.filename}}AddLogic) {{.filename}}Add(req types.{{.filename}}AddRequest) (*types.Response, error) {
+func (l *{{.filename}}AddLogic) {{.filename}}Add(req *types.{{.filename}}AddRequest) (*types.Response, error) {
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	_, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}Add(l.ctx, &{{.modelname}}.{{.filename}}AddReq{
+	_, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}Add(l.ctx, &{{.xmodelname}}client.{{.filename}}AddReq{
 	    {{.data}}
 	})
 	if err != nil {

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"github.com/urfave/cli/v2"
 	"gozc/gen/api"
+	"gozc/gen/http"
 	"gozc/gen/rpc"
 	"gozc/parser"
 	"os"
@@ -28,7 +29,7 @@ func main() {
 	}
 	app.Setup()
 
-	//os.Args = append(os.Args, "run", "--sql=./sys_auth.sql")
+	os.Args = append(os.Args, "run", "--m=admin", "--sql=E:\\Gopath\\src\\gozc\\model\\sql\\sys_admin.sql")
 
 	if err := app.Run(os.Args); err != nil {
 		fmt.Println(err)
@@ -46,6 +47,11 @@ var runCmd = &cli.Command{
 			Usage: "sql文件路径",
 			Value: "",
 		},
+		&cli.StringFlag{
+			Name:  "m",
+			Usage: "模型名称",
+			Value: "",
+		},
 	},
 	Before: func(cctx *cli.Context) error {
 		data := os.Getenv("GOZC_PATH")
@@ -59,7 +65,11 @@ var runCmd = &cli.Command{
 		var srcPath string
 		srcPath = cctx.String("sql")
 		if srcPath == "" {
-			return errors.New("请传入SQL文件路径地址")
+			return errors.New("请传入SQL文件路径地址--sql")
+		}
+		modelName := cctx.String("m")
+		if srcPath == "" {
+			return errors.New("请传入模型名称--m")
 		}
 		if strings.Contains(srcPath, ".\\") {
 			dir, _ := os.Getwd()
@@ -71,18 +81,29 @@ var runCmd = &cli.Command{
 			println(dir)
 			srcPath = strings.Replace(srcPath, "./", dir+"\\", -1)
 		}
+
 		fmt.Println(srcPath)
+
 		// 讲sql文件 转换成tables
 		tables, err := parser.Parse(srcPath)
 		if err != nil {
 			return err
 		}
-		err = CreateApiData(tables, srcPath)
+
+		// 生成API
+		err = CreateApiData(tables, modelName, srcPath)
 		if err != nil {
 			return err
 		}
 
-		err = CreateRpcData(tables, srcPath)
+		// 生成RPC
+		err = CreateRpcData(tables, modelName, srcPath)
+		if err != nil {
+			return err
+		}
+
+		// 生成HTTP
+		err = CreateHttpData(tables, modelName, srcPath)
 		if err != nil {
 			return err
 		}
@@ -90,31 +111,31 @@ var runCmd = &cli.Command{
 	},
 }
 
-func CreateApiData(tables []*parser.Table, srcPath string) error {
+func CreateApiData(tables []*parser.Table, modelName, srcPath string) error {
 	// 生成API
 	apiData := make(map[string]*api.CodeTuple)
 	for _, e := range tables {
-		Api, err := api.GenApiModel(*e, "admin", "api")
+		Api, err := api.GenApiModel(*e, modelName, "api")
 		if err != nil {
 			return err
 		}
-		ApiInsert, err := api.GenApiModel(*e, "admin", "Insert")
+		ApiInsert, err := api.GenApiModel(*e, modelName, "Insert")
 		if err != nil {
 			return err
 		}
-		ApiDelete, err := api.GenApiModel(*e, "admin", "delete")
+		ApiDelete, err := api.GenApiModel(*e, modelName, "delete")
 		if err != nil {
 			return err
 		}
-		ApiUpdate, err := api.GenApiModel(*e, "admin", "update")
+		ApiUpdate, err := api.GenApiModel(*e, modelName, "update")
 		if err != nil {
 			return err
 		}
-		ApiFindOne, err := api.GenApiModel(*e, "admin", "findOne")
+		ApiFindOne, err := api.GenApiModel(*e, modelName, "findOne")
 		if err != nil {
 			return err
 		}
-		ApiFindList, err := api.GenApiModel(*e, "admin", "findList")
+		ApiFindList, err := api.GenApiModel(*e, modelName, "findList")
 		if err != nil {
 			return err
 		}
@@ -131,31 +152,31 @@ func CreateApiData(tables []*parser.Table, srcPath string) error {
 	return err
 }
 
-func CreateRpcData(tables []*parser.Table, srcPath string) error {
+func CreateRpcData(tables []*parser.Table, modelName, srcPath string) error {
 	// 生成Rpc
 	rpcData := make(map[string]*rpc.CodeTuple)
 	for _, e := range tables {
-		Rpc, err := rpc.GenRpcModel(*e, "admin", "rpc")
+		Rpc, err := rpc.GenRpcModel(*e, modelName, "rpc")
 		if err != nil {
 			return err
 		}
-		RpcInsert, err := rpc.GenRpcModel(*e, "admin", "Insert")
+		RpcInsert, err := rpc.GenRpcModel(*e, modelName, "Insert")
 		if err != nil {
 			return err
 		}
-		RpcDelete, err := rpc.GenRpcModel(*e, "admin", "delete")
+		RpcDelete, err := rpc.GenRpcModel(*e, modelName, "delete")
 		if err != nil {
 			return err
 		}
-		RpcUpdate, err := rpc.GenRpcModel(*e, "admin", "update")
+		RpcUpdate, err := rpc.GenRpcModel(*e, modelName, "update")
 		if err != nil {
 			return err
 		}
-		RpcFindOne, err := rpc.GenRpcModel(*e, "admin", "findOne")
+		RpcFindOne, err := rpc.GenRpcModel(*e, modelName, "findOne")
 		if err != nil {
 			return err
 		}
-		RpcFindList, err := rpc.GenRpcModel(*e, "admin", "findList")
+		RpcFindList, err := rpc.GenRpcModel(*e, modelName, "findList")
 		if err != nil {
 			return err
 		}
@@ -169,5 +190,21 @@ func CreateRpcData(tables []*parser.Table, srcPath string) error {
 		}
 	}
 	err := rpc.CreateFileRpc(rpcData, srcPath)
+	return err
+}
+
+func CreateHttpData(tables []*parser.Table, modelName, srcPath string) error {
+	// 生成Http
+	HttpData := make(map[string]*http.CodeTuple)
+	for _, e := range tables {
+		Api, err := http.GenHttpModel(*e, modelName, "http-api")
+		if err != nil {
+			return err
+		}
+		HttpData[e.Name.Source()] = &http.CodeTuple{
+			Api: Api,
+		}
+	}
+	err := http.CreateFileHttp(HttpData, srcPath)
 	return err
 }

@@ -1,8 +1,8 @@
-func (l *{{.filename}}DelLogic) {{.filename}}Del(req types.{{.filename}}DelRequest) (*types.Response, error) {
+func (l *{{.filename}}DelLogic) {{.filename}}Del(req *types.{{.filename}}DelRequest) (*types.Response, error) {
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	_, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}Delete(l.ctx, &{{.modelname}}.{{.filename}}DeleteReq{
+	_, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}Delete(l.ctx, &{{.xmodelname}}client.{{.filename}}DeleteReq{
 	    {{.data}}
 	})
 	if err != nil {

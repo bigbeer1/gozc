@@ -91,7 +91,11 @@ func GetApiData(table Table, dataType string) string {
 				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
-			reqTypeData = field.Name.Source() + ",optional"
+			if camel != "Id" {
+				reqTypeData = field.Name.Source() + ",optional"
+			} else {
+				reqTypeData = field.Name.Source()
+			}
 		case findOneTemplateFile:
 			if camel != "Id" {
 				continue
