@@ -29,7 +29,7 @@ func main() {
 	}
 	app.Setup()
 
-	os.Args = append(os.Args, "run", "--m=admin", "--sql=E:\\Gopath\\src\\gozc\\model\\sql\\sys_admin.sql")
+	//os.Args = append(os.Args, "run", "--m=admin", "--sql=E:\\Gopath\\src\\gozc\\model\\sql\\sys_admin.sql")
 
 	if err := app.Run(os.Args); err != nil {
 		fmt.Println(err)
