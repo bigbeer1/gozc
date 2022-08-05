@@ -1,0 +1,107 @@
+syntax = "proto3";
+
+package adminclient;
+
+option go_package = "./adminclient";
+
+//SysAdmin start-------------------
+
+// SysAdmin 添加
+message SysAdminAddReq{
+	string  created_name = 1;  // 创建人
+	string  name = 2;  // 用户名
+	string  nick_name = 3;  // 姓名
+	string  avatar = 4;  // 头像
+	string  password = 5;  // 密码
+	string  email = 6;  // 邮箱
+	string  telephone = 7;  // 手机号
+	int64   state = 8;  // 状态
+}
+
+// SysAdmin 删除
+message SysAdminDeleteReq{
+	string  id = 1;  // 系统管理员ID
+	string  deleted_name = 2;  // 删除人
+}
+
+// SysAdmin 更新
+message SysAdminUpdateReq{
+	string  id = 1;  // 系统管理员ID
+	string  updated_name = 2;  // 更新人
+	string  name = 3;  // 用户名
+	string  nick_name = 4;  // 姓名
+	string  avatar = 5;  // 头像
+	string  password = 6;  // 密码
+	string  email = 7;  // 邮箱
+	string  telephone = 8;  // 手机号
+	int64   state = 9;  // 状态
+}
+
+// SysAdmin 单个查询
+message SysAdminFindOneReq{
+	string  id = 1;  // 系统管理员ID
+}
+
+// SysAdmin 单个查询返回
+message SysAdminFindOneResp{
+	string  id = 1;  // 系统管理员ID
+	int64   created_at = 2;  // 创建时间
+	int64   updated_at = 3;  // 更新时间
+	string  created_name = 4;  // 创建人
+	string  updated_name = 5;  // 更新人
+	string  name = 6;  // 用户名
+	string  nick_name = 7;  // 姓名
+	string  avatar = 8;  // 头像
+	string  password = 9;  // 密码
+	string  email = 10;  // 邮箱
+	string  telephone = 11;  // 手机号
+	int64   state = 12;  // 状态
+}
+
+
+// SysAdmin 分页查询
+message SysAdminListReq{
+	int64  Current = 1;  // 页码
+	int64  PageSize = 2;  // 页数
+	string  name = 3;  // 用户名
+	string  nick_name = 4;  // 姓名
+	string  avatar = 5;  // 头像
+	string  password = 6;  // 密码
+	string  email = 7;  // 邮箱
+	string  telephone = 8;  // 手机号
+	int64   state = 9;  // 状态
+}
+
+// SysAdmin 分页查询返回
+message SysAdminListResp{
+	int64  total = 1;  // 总数
+	repeated  SysAdminListData list = 2;  // 内容
+}
+
+// SysAdmin 列表信息
+message SysAdminListData{
+	string  id = 1;  // 系统管理员ID
+	int64   created_at = 2;  // 创建时间
+	int64   updated_at = 3;  // 更新时间
+	string  created_name = 4;  // 创建人
+	string  updated_name = 5;  // 更新人
+	string  name = 6;  // 用户名
+	string  nick_name = 7;  // 姓名
+	string  avatar = 8;  // 头像
+	string  password = 9;  // 密码
+	string  email = 10;  // 邮箱
+	string  telephone = 11;  // 手机号
+	int64   state = 12;  // 状态
+}
+
+//SysAdmin end---------------------
+
+service Admin {
+
+  rpc SysAdminAdd(SysAdminAddReq) returns(CommonResp);
+  rpc SysAdminDelete(SysAdminDeleteReq) returns(CommonResp);
+  rpc SysAdminUpdate(SysAdminUpdateReq) returns(CommonResp);
+  rpc SysAdminFindOne(SysAdminFindOneReq) returns(SysAdminFindOneResp);
+  rpc SysAdminList(SysAdminListReq) returns(SysAdminListResp);
+
+}

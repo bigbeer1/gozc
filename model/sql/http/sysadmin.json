@@ -1,0 +1,261 @@
+{
+  "openapi": "3.0.1",
+  "tags": [
+    {
+      "name": "sysAdmin"
+    }
+  ],
+  "paths": {
+    "/admin/sysAdmin/{id}": {
+      "delete": {
+        "summary": "删除sysAdmin",
+        "x-apifox-folder": "sysAdmin",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "sysAdmin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "系统管理员ID",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/sysAdminInfo": {
+      "get": {
+        "summary": "根据ID查询sysAdmin",
+        "x-apifox-folder": "sysAdmin",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "sysAdmin"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "description": "系统管理员ID",
+            "required": false,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/admin/sysAdmin": {
+      "post": {
+        "summary": "添加sysAdmin",
+        "x-apifox-folder": "sysAdmin",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "sysAdmin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+					"type": "string",
+					"description": "用户名"
+				  },
+				  "nickName": {
+					"type": "string",
+					"description": "姓名"
+				  },
+				  "avatar": {
+					"type": "string",
+					"description": "头像"
+				  },
+				  "password": {
+					"type": "string",
+					"description": "密码"
+				  },
+				  "email": {
+					"type": "string",
+					"description": "邮箱"
+				  },
+				  "telephone": {
+					"type": "string",
+					"description": "手机号"
+				  },
+				  "state": {
+					"type": "integer",
+					"description": "状态"
+				  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "分页查询sysAdmin",
+        "x-apifox-folder": "sysAdmin",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "sysAdmin"
+        ],
+        "parameters": [
+          {
+			"name": "current",
+			"in": "query",
+			"description": "页码",
+			"required": false,
+			"schema": {
+			  "type": "integer"
+			}
+		  },
+		  {
+			"name": "page_size",
+			"in": "query",
+			"description": "页数",
+			"required": false,
+			"schema": {
+			  "type": "integer"
+			}
+		  },
+		  {
+			"name": "name",
+			"in": "query",
+			"description": "用户名",
+			"required": false,
+			"schema": {
+			  "type": "string"
+			}
+		  },
+		  {
+			"name": "nickName",
+			"in": "query",
+			"description": "姓名",
+			"required": false,
+			"schema": {
+			  "type": "string"
+			}
+		  },
+		  {
+			"name": "avatar",
+			"in": "query",
+			"description": "头像",
+			"required": false,
+			"schema": {
+			  "type": "string"
+			}
+		  },
+		  {
+			"name": "password",
+			"in": "query",
+			"description": "密码",
+			"required": false,
+			"schema": {
+			  "type": "string"
+			}
+		  },
+		  {
+			"name": "email",
+			"in": "query",
+			"description": "邮箱",
+			"required": false,
+			"schema": {
+			  "type": "string"
+			}
+		  },
+		  {
+			"name": "telephone",
+			"in": "query",
+			"description": "手机号",
+			"required": false,
+			"schema": {
+			  "type": "string"
+			}
+		  },
+		  {
+			"name": "state",
+			"in": "query",
+			"description": "状态",
+			"required": false,
+			"schema": {
+			  "type": "integer"
+			}
+		  }
+        ]
+      },
+      "put": {
+        "summary": "修改sysAdmin",
+        "x-apifox-folder": "sysAdmin",
+        "x-apifox-status": "developing",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "sysAdmin"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                   "id": {
+					"type": "string",
+					"description": "系统管理员ID"
+				  },
+				  "name": {
+					"type": "string",
+					"description": "用户名"
+				  },
+				  "nickName": {
+					"type": "string",
+					"description": "姓名"
+				  },
+				  "avatar": {
+					"type": "string",
+					"description": "头像"
+				  },
+				  "password": {
+					"type": "string",
+					"description": "密码"
+				  },
+				  "email": {
+					"type": "string",
+					"description": "邮箱"
+				  },
+				  "telephone": {
+					"type": "string",
+					"description": "手机号"
+				  },
+				  "state": {
+					"type": "integer",
+					"description": "状态"
+				  }
+                },
+                "required": [
+                  "id"
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {}
+  }
+}

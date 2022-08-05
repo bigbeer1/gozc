@@ -1,0 +1,76 @@
+syntax = "v1"
+
+
+type (
+    SysAdminAddRequest {
+		Name  string  `json:"name,optional"`  // 用户名
+		NickName  string  `json:"nick_name,optional"`  // 姓名
+		Avatar  string  `json:"avatar,optional"`  // 头像
+		Password  string  `json:"password,optional"`  // 密码
+		Email  string  `json:"email,optional"`  // 邮箱
+		Telephone  string  `json:"telephone,optional"`  // 手机号
+		State  int64  `json:"state,optional"`  // 状态
+    }
+
+    SysAdminDelRequest {
+		Id  string  `path:"id"`  // 系统管理员ID
+    }
+
+    SysAdminUpRequest {
+		Id  string  `json:"id"`  // 系统管理员ID
+		Name  string  `json:"name,optional"`  // 用户名
+		NickName  string  `json:"nick_name,optional"`  // 姓名
+		Avatar  string  `json:"avatar,optional"`  // 头像
+		Password  string  `json:"password,optional"`  // 密码
+		Email  string  `json:"email,optional"`  // 邮箱
+		Telephone  string  `json:"telephone,optional"`  // 手机号
+		State  int64  `json:"state,optional"`  // 状态      
+    }
+
+
+    SysAdminListRequest {
+		Current  int64  `form:"current,default=1,optional"`  // 页码
+		PageSize  int64  `form:"page_size,default=10,optional"`  // 页数
+		Name  string  `form:"name,optional"`  // 用户名
+		NickName  string  `form:"nick_name,optional"`  // 姓名
+		Avatar  string  `form:"avatar,optional"`  // 头像
+		Password  string  `form:"password,optional"`  // 密码
+		Email  string  `form:"email,optional"`  // 邮箱
+		Telephone  string  `form:"telephone,optional"`  // 手机号
+		State  int64  `form:"state,optional"`  // 状态       
+    }
+
+    SysAdminInfoRequest {
+		Id  string  `form:"id"`  // 系统管理员ID          
+    }
+
+)
+
+@server(
+    //声明当前service下所有路由需要jwt鉴权，且会自动生成包含jwt逻辑的代码
+    jwt: Auth
+    group: sysAdmin
+)
+
+service Admin {
+
+    // 添加
+    @handler SysAdminAdd
+    post /admin/sysAdmin (SysAdminAddRequest) returns (Response)
+
+    // 删除
+    @handler SysAdminDel
+    delete /admin/sysAdmin/:id (SysAdminDelRequest) returns (Response)
+
+    // 更新
+    @handler SysAdminUp
+    put /admin/sysAdmin (SysAdminUpRequest) returns (Response)
+
+    // 分页查询
+    @handler SysAdminList
+    get /admin/sysAdmin (SysAdminListRequest) returns (Response)
+
+    // 查询详细信息
+    @handler SysAdminInfo
+    get /admin/sysAdminInfo (SysAdminInfoRequest) returns (Response)
+}
