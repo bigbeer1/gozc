@@ -2,7 +2,7 @@ func (l *{{.filename}}UpLogic) {{.filename}}Up(req *types.{{.filename}}UpRequest
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	_, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}Update(l.ctx, &{{.filename}}client.{{.filename}}UpdateReq{
+	_, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}Update(l.ctx, &{{.xmodelname}}client.{{.filename}}UpdateReq{
 	    {{.data}}
 	})
 	if err != nil {
