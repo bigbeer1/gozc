@@ -12,9 +12,11 @@ func genUpdate(table Table, modelName stringx.String) (string, error) {
 	datas := make([]string, 0)
 	var tenantCount = 0
 	var tenantData = ""
+	var deletedCount = 0
+	var deletedAtData = ""
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
+		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" ||
 			camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" {
 			continue
 		}
@@ -22,6 +24,9 @@ func genUpdate(table Table, modelName stringx.String) (string, error) {
 		switch camel {
 		case "TenantId":
 			tenantCount++
+			continue
+		case "DeletedAt":
+			deletedCount++
 			continue
 		default:
 			switch field.DataType {
@@ -58,8 +63,13 @@ func genUpdate(table Table, modelName stringx.String) (string, error) {
 	if tenantCount > 0 {
 		tenantData = "if res.TenantId != in.TenantId {\n\t\treturn nil, errors.New(\"不是一个租户非法操作\")\n\t}"
 	}
-	data := strings.Join(datas, "\n\t")
+
 	camel := table.Name.ToCamel()
+
+	if deletedCount > 0 {
+		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, errors.New(\"%s该ID已被删除：\" + in.Id)\n\t}", camel)
+	}
+	data := strings.Join(datas, "\n\t")
 	xmodelname := modelName.Lower()
 	text, err := pathx.LoadTemplate(category, updateTemplateFile, "")
 	if err != nil {
@@ -68,10 +78,11 @@ func genUpdate(table Table, modelName stringx.String) (string, error) {
 	output, err := util.With("update").
 		Parse(text).
 		Execute(map[string]interface{}{
-			"filename":   camel,
-			"xmodelname": xmodelname,
-			"tenant":     tenantData,
-			"updateData": data,
+			"filename":      camel,
+			"xmodelname":    xmodelname,
+			"tenant":        tenantData,
+			"updateData":    data,
+			"deletedAtData": deletedAtData,
 		})
 	if err != nil {
 		return "", err

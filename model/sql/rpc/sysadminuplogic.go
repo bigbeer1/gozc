@@ -8,6 +8,10 @@ func (l *SysAdminUpdateLogic) SysAdminUpdate(in *adminclient.SysAdminUpdateReq) 
 		return nil, err
 	}
 
+    // 判断该数据是否被删除
+	if res.DeletedAt.Valid == true {
+		return nil, errors.New("SysAdmin该ID已被删除：" + in.Id)
+	}
 	
 
 	// 用户名

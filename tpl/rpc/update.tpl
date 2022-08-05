@@ -8,6 +8,7 @@ func (l *{{.filename}}UpdateLogic) {{.filename}}Update(in *{{.xmodelname}}client
 		return nil, err
 	}
 
+    {{.deletedAtData}}
 	{{.tenant}}
 
 	{{.updateData}}

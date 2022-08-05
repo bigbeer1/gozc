@@ -2,7 +2,7 @@ func (l *SysAdminUpLogic) SysAdminUp(req *types.SysAdminUpRequest) (*types.Respo
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	_, err := l.svcCtx.AdminRpc.SysAdminUpdate(l.ctx, &SysAdminclient.SysAdminUpdateReq{
+	_, err := l.svcCtx.AdminRpc.SysAdminUpdate(l.ctx, &adminclient.SysAdminUpdateReq{
 	    Id:	 req.Id, // 系统管理员ID
 		UpdatedName:	 tokenData.NickName, // 更新人
 		Name:	 req.Name, // 用户名

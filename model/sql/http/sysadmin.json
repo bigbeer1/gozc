@@ -74,7 +74,7 @@
 					"type": "string",
 					"description": "用户名"
 				  },
-				  "nickName": {
+				  "nick_name": {
 					"type": "string",
 					"description": "姓名"
 				  },
@@ -142,7 +142,7 @@
 			}
 		  },
 		  {
-			"name": "nickName",
+			"name": "nick_name",
 			"in": "query",
 			"description": "姓名",
 			"required": false,
@@ -220,7 +220,7 @@
 					"type": "string",
 					"description": "用户名"
 				  },
-				  "nickName": {
+				  "nick_name": {
 					"type": "string",
 					"description": "姓名"
 				  },
