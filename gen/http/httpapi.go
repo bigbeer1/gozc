@@ -53,7 +53,7 @@ func GetHttpData(table Table, dataType string) string {
 
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		xcamel := util.SafeString(field.Name.ToCamelWithStartLower())
+		xcamel := util.SafeString(field.Name.Lower())
 		switch dataType {
 		case "add":
 			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
@@ -131,7 +131,7 @@ func GetHttpQueryData(table Table) string {
 
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		xcamel := util.SafeString(field.Name.ToCamelWithStartLower())
+		xcamel := util.SafeString(field.Name.Lower())
 		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
 			camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
 			continue
