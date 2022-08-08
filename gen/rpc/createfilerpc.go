@@ -2,7 +2,6 @@ package rpc
 
 import (
 	"fmt"
-	"gozc/tools/pathx"
 	"io/ioutil"
 	"os"
 	"path/filepath"
@@ -13,16 +12,11 @@ func CreateFileRpc(modelList map[string]*CodeTuple, srcPath string) error {
 
 	dirAbs := filepath.Dir(srcPath)
 
-	err := pathx.MkdirIfNotExist(dirAbs)
-	if err != nil {
-		return err
-	}
-
 	dirAbs = filepath.Join(dirAbs, "rpc")
 
 	is, _ := IsPathExist(dirAbs)
 	if is == false {
-		err = os.Mkdir(dirAbs, os.ModePerm)
+		err := os.Mkdir(dirAbs, os.ModePerm)
 		if err != nil {
 			return err
 		}
@@ -32,7 +26,7 @@ func CreateFileRpc(modelList map[string]*CodeTuple, srcPath string) error {
 
 		name := fmt.Sprintf("%v.proto", SafeString(tableName))
 		filename := filepath.Join(dirAbs, name)
-		err = ioutil.WriteFile(filename, []byte(codes.Rpc), os.ModePerm)
+		err := ioutil.WriteFile(filename, []byte(codes.Rpc), os.ModePerm)
 		if err != nil {
 			return err
 		}
