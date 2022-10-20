@@ -133,7 +133,7 @@ func GetHttpQueryData(table Table) string {
 		camel := util.SafeString(field.Name.ToCamel())
 		xcamel := util.SafeString(field.Name.Lower())
 		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-			camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
+			camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" || camel == "Sort" {
 			continue
 		}
 
