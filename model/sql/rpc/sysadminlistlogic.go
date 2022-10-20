@@ -9,38 +9,38 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
 
     // 用户名
 	if len(in.Name) > 0 {
-		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"name ": in.Name,
+		whereBuilder = whereBuilder.Where(squirrel.Like{
+			"name ": "%"+in.Name+"%",
 		})
 	}
 	// 姓名
 	if len(in.NickName) > 0 {
-		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"nick_name ": in.NickName,
+		whereBuilder = whereBuilder.Where(squirrel.Like{
+			"nick_name ": "%"+in.NickName+"%",
 		})
 	}
 	// 头像
 	if len(in.Avatar) > 0 {
-		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"avatar ": in.Avatar,
+		whereBuilder = whereBuilder.Where(squirrel.Like{
+			"avatar ": "%"+in.Avatar+"%",
 		})
 	}
 	// 密码
 	if len(in.Password) > 0 {
-		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"password ": in.Password,
+		whereBuilder = whereBuilder.Where(squirrel.Like{
+			"password ": "%"+in.Password+"%",
 		})
 	}
 	// 邮箱
 	if len(in.Email) > 0 {
-		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"email ": in.Email,
+		whereBuilder = whereBuilder.Where(squirrel.Like{
+			"email ": "%"+in.Email+"%",
 		})
 	}
 	// 手机号
 	if len(in.Telephone) > 0 {
-		whereBuilder = whereBuilder.Where(squirrel.Eq{
-			"telephone ": in.Telephone,
+		whereBuilder = whereBuilder.Where(squirrel.Like{
+			"telephone ": "%"+in.Telephone+"%",
 		})
 	}
 	// 状态
@@ -63,38 +63,38 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
 
     // 用户名
 	if len(in.Name) > 0 {
-		countBuilder = countBuilder.Where(squirrel.Eq{
-			"name ": in.Name,
+		countBuilder = countBuilder.Where(squirrel.Like{
+			"name ": "%"+in.Name+"%",
 		})
 	}
 	// 姓名
 	if len(in.NickName) > 0 {
-		countBuilder = countBuilder.Where(squirrel.Eq{
-			"nick_name ": in.NickName,
+		countBuilder = countBuilder.Where(squirrel.Like{
+			"nick_name ": "%"+in.NickName+"%",
 		})
 	}
 	// 头像
 	if len(in.Avatar) > 0 {
-		countBuilder = countBuilder.Where(squirrel.Eq{
-			"avatar ": in.Avatar,
+		countBuilder = countBuilder.Where(squirrel.Like{
+			"avatar ": "%"+in.Avatar+"%",
 		})
 	}
 	// 密码
 	if len(in.Password) > 0 {
-		countBuilder = countBuilder.Where(squirrel.Eq{
-			"password ": in.Password,
+		countBuilder = countBuilder.Where(squirrel.Like{
+			"password ": "%"+in.Password+"%",
 		})
 	}
 	// 邮箱
 	if len(in.Email) > 0 {
-		countBuilder = countBuilder.Where(squirrel.Eq{
-			"email ": in.Email,
+		countBuilder = countBuilder.Where(squirrel.Like{
+			"email ": "%"+in.Email+"%",
 		})
 	}
 	// 手机号
 	if len(in.Telephone) > 0 {
-		countBuilder = countBuilder.Where(squirrel.Eq{
-			"telephone ": in.Telephone,
+		countBuilder = countBuilder.Where(squirrel.Like{
+			"telephone ": "%"+in.Telephone+"%",
 		})
 	}
 	// 状态

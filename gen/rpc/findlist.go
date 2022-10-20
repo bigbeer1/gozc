@@ -82,7 +82,7 @@ func getListData(table Table, builderName string) (data string, tenantCount, del
 		default:
 			switch field.DataType {
 			case "sql.NullString":
-				model = fmt.Sprintf("// %s\n\tif len(in.%v) > 0 {\n\t\t%s = %s.Where(squirrel.Eq{\n\t\t\t\"%s \": in.%s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, camel)
+				model = fmt.Sprintf("// %s\n\tif len(in.%v) > 0 {\n\t\t%s = %s.Where(squirrel.Like{\n\t\t\t\"%s \": %s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, `"%"+in.`+camel+`+"%"`)
 			case "sql.NullInt64":
 				model = fmt.Sprintf("// %s\n\tif in.%v != 99 {\n\t\t%s = %s.Where(squirrel.Eq{\n\t\t\t\"%s \": in.%s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, camel)
 			case "sql.NullInt32":
@@ -92,7 +92,7 @@ func getListData(table Table, builderName string) (data string, tenantCount, del
 			case "sql.NullFloat32":
 				model = fmt.Sprintf("// %s\n\tif in.%v != 99.0 {\n\t\t%s = %s.Where(squirrel.Eq{\n\t\t\t\"%s \": in.%s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, camel)
 			case "string":
-				model = fmt.Sprintf("// %s\n\tif len(in.%v) > 0 {\n\t\t%s = %s.Where(squirrel.Eq{\n\t\t\t\"%s \": in.%s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, camel)
+				model = fmt.Sprintf("// %s\n\tif len(in.%v) > 0 {\n\t\t%s = %s.Where(squirrel.Like{\n\t\t\t\"%s \": %s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, `"%"+in.`+camel+`+"%"`)
 			case "int64":
 				model = fmt.Sprintf("// %s\n\tif in.%v != 99 {\n\t\t%s = %s.Where(squirrel.Eq{\n\t\t\t\"%s \": in.%s,\n\t\t})\n\t}", field.Comment, camel, builderName, builderName, xcamel, camel)
 			case "int32":
