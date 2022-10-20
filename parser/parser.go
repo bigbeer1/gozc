@@ -7,10 +7,8 @@ import (
 	"gozc/converter"
 
 	"github.com/zeromicro/go-zero/core/collection"
-	"github.com/zeromicro/go-zero/tools/goctl/model/sql/model"
 	"gozc/tools/stringx"
 	"path/filepath"
-	"sort"
 	"strings"
 )
 
@@ -241,112 +239,6 @@ func checkDuplicateUniqueIndex(uniqueIndex map[string][]*Field, tableName string
 
 		uniqueSet.AddStr(joinRet)
 	}
-}
-
-// ConvertDataType converts mysql data type into golang data type
-func ConvertDataType(table *model.Table) (*Table, error) {
-	isPrimaryDefaultNull := table.PrimaryKey.ColumnDefault == nil && table.PrimaryKey.IsNullAble == "YES"
-	isPrimaryUnsigned := strings.Contains(table.PrimaryKey.DbColumn.ColumnType, "unsigned")
-	primaryDataType, err := converter.ConvertStringDataType(table.PrimaryKey.DataType, isPrimaryDefaultNull, isPrimaryUnsigned)
-	if err != nil {
-		return nil, err
-	}
-
-	var reply Table
-	reply.UniqueIndex = map[string][]*Field{}
-	reply.Name = stringx.From(table.Table)
-	reply.Db = stringx.From(table.Db)
-	seqInIndex := 0
-	if table.PrimaryKey.Index != nil {
-		seqInIndex = table.PrimaryKey.Index.SeqInIndex
-	}
-
-	reply.PrimaryKey = Primary{
-		Field: Field{
-			Name:            stringx.From(table.PrimaryKey.Name),
-			DataType:        primaryDataType,
-			Comment:         table.PrimaryKey.Comment,
-			SeqInIndex:      seqInIndex,
-			OrdinalPosition: table.PrimaryKey.OrdinalPosition,
-		},
-		AutoIncrement: strings.Contains(table.PrimaryKey.Extra, "auto_increment"),
-	}
-
-	fieldM, err := getTableFields(table)
-	if err != nil {
-		return nil, err
-	}
-
-	for _, each := range fieldM {
-		reply.Fields = append(reply.Fields, each)
-	}
-	sort.Slice(reply.Fields, func(i, j int) bool {
-		return reply.Fields[i].OrdinalPosition < reply.Fields[j].OrdinalPosition
-	})
-
-	uniqueIndexSet := collection.NewSet()
-	log := console.NewColorConsole()
-	for indexName, each := range table.UniqueIndex {
-		sort.Slice(each, func(i, j int) bool {
-			if each[i].Index != nil {
-				return each[i].Index.SeqInIndex < each[j].Index.SeqInIndex
-			}
-			return false
-		})
-
-		if len(each) == 1 {
-			one := each[0]
-			if one.Name == table.PrimaryKey.Name {
-				log.Warning("[ConvertDataType]: table q%, duplicate unique index with primary key:  %q", table.Table, one.Name)
-				continue
-			}
-		}
-
-		var list []*Field
-		var uniqueJoin []string
-		for _, c := range each {
-			list = append(list, fieldM[c.Name])
-			uniqueJoin = append(uniqueJoin, c.Name)
-		}
-
-		uniqueKey := strings.Join(uniqueJoin, ",")
-		if uniqueIndexSet.Contains(uniqueKey) {
-			log.Warning("[ConvertDataType]: table %q, duplicate unique index %q", table.Table, uniqueKey)
-			continue
-		}
-
-		uniqueIndexSet.AddStr(uniqueKey)
-		reply.UniqueIndex[indexName] = list
-	}
-
-	return &reply, nil
-}
-
-func getTableFields(table *model.Table) (map[string]*Field, error) {
-	fieldM := make(map[string]*Field)
-	for _, each := range table.Columns {
-		isDefaultNull := each.ColumnDefault == nil && each.IsNullAble == "YES"
-		isPrimaryUnsigned := strings.Contains(each.ColumnType, "unsigned")
-		dt, err := converter.ConvertStringDataType(each.DataType, isDefaultNull, isPrimaryUnsigned)
-		if err != nil {
-			return nil, err
-		}
-		columnSeqInIndex := 0
-		if each.Index != nil {
-			columnSeqInIndex = each.Index.SeqInIndex
-		}
-
-		field := &Field{
-			NameOriginal:    each.Name,
-			Name:            stringx.From(each.Name),
-			DataType:        dt,
-			Comment:         each.Comment,
-			SeqInIndex:      columnSeqInIndex,
-			OrdinalPosition: each.OrdinalPosition,
-		}
-		fieldM[each.Name] = field
-	}
-	return fieldM, nil
 }
 
 const timeImport = "time.Time"

@@ -36,7 +36,7 @@ func genFindList(table Table, modelName stringx.String) (string, error) {
 
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		if camel == "DeletedAt" || camel == "DeletedName" {
+		if camel == "DeletedAt" || camel == "DeletedName" || camel == "Sort" {
 			continue
 		}
 		var model string

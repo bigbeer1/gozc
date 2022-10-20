@@ -37,7 +37,7 @@ type (
 		Password  string  `form:"password,optional"`  // 密码
 		Email  string  `form:"email,optional"`  // 邮箱
 		Telephone  string  `form:"telephone,optional"`  // 手机号
-		State  int64  `form:"state,optional"`  // 状态       
+		State  int64  `form:"state,default=99,optional"`  // 状态       
     }
 
     SysAdminInfoRequest {

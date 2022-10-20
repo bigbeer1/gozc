@@ -77,6 +77,8 @@ func getListData(table Table, builderName string) (data string, tenantCount, del
 		case "DeletedAt":
 			deletedCount++
 			continue
+		case "Sort":
+			continue
 		default:
 			switch field.DataType {
 			case "sql.NullString":

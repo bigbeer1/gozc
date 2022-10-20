@@ -61,8 +61,8 @@ message SysAdminFindOneResp{
 
 // SysAdmin 分页查询
 message SysAdminListReq{
-	int64  Current = 1;  // 页码
-	int64  PageSize = 2;  // 页数
+	int64  current = 1;  // 页码
+	int64  page_size = 2;  // 页数
 	string  name = 3;  // 用户名
 	string  nick_name = 4;  // 姓名
 	string  avatar = 5;  // 头像

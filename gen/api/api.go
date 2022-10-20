@@ -51,6 +51,7 @@ func GetApiData(table Table, dataType string) string {
 	var initmodel string
 	var reqType = "json"
 	var reqTypeData string
+	var reqTypeDataInt string
 	if dataType == findListTemplateFile {
 		//添加分页
 		initmodel = fmt.Sprintf("%s  %s  `form:\"%s\"`  // %s", "Current", "int64", "current,default=1,optional", "页码")
@@ -71,21 +72,25 @@ func GetApiData(table Table, dataType string) string {
 		switch dataType {
 		case findListTemplateFile:
 			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
+				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" || camel == "Sort" {
 				continue
 			}
 			reqTypeData = field.Name.Source() + ",optional"
+			reqTypeDataInt = field.Name.Source() + ",default=99,optional"
 		case insertTemplateFile:
 			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
 				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
 			reqTypeData = field.Name.Source() + ",optional"
+			reqTypeDataInt = field.Name.Source() + ",optional"
 		case deleteTemplateFile:
 			if camel != "Id" {
 				continue
 			}
 			reqTypeData = field.Name.Source()
+			reqTypeDataInt = field.Name.Source()
+
 		case updateTemplateFile:
 			if camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
 				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
@@ -93,14 +98,17 @@ func GetApiData(table Table, dataType string) string {
 			}
 			if camel != "Id" {
 				reqTypeData = field.Name.Source() + ",optional"
+				reqTypeDataInt = field.Name.Source() + ",optional"
 			} else {
 				reqTypeData = field.Name.Source()
+				reqTypeDataInt = field.Name.Source()
 			}
 		case findOneTemplateFile:
 			if camel != "Id" {
 				continue
 			}
 			reqTypeData = field.Name.Source()
+			reqTypeDataInt = field.Name.Source()
 		}
 		var model string
 		switch camel {
@@ -117,13 +125,13 @@ func GetApiData(table Table, dataType string) string {
 			case "time.Time":
 				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
 			case "sql.NullInt64":
-				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeDataInt, field.Comment)
 			case "sql.NullInt32":
-				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeDataInt, field.Comment)
 			case "int64":
-				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeDataInt, field.Comment)
 			case "int32":
-				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeData, field.Comment)
+				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "int64", reqType, reqTypeDataInt, field.Comment)
 			case "float64":
 				model = fmt.Sprintf("%s  %s  `%s:\"%s\"`  // %s", camel, "float64", reqType, reqTypeData, field.Comment)
 			case "float32":

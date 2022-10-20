@@ -31,7 +31,7 @@ func genUpdate(table Table, modelName stringx.String) (string, error) {
 		default:
 			switch field.DataType {
 			case "sql.NullString":
-				model = fmt.Sprintf("// %s \n\tif len(in.%v) != 0 {\n\t\tres.%s.String = in.%s\n\t\tres.%s.Valid = true\n\t}", field.Comment, camel, camel, camel, camel)
+				model = fmt.Sprintf("// %s \n\tif len(in.%v) > 0 {\n\t\tres.%s.String = in.%s\n\t\tres.%s.Valid = true\n\t}", field.Comment, camel, camel, camel, camel)
 			case "sql.NullInt64":
 				model = fmt.Sprintf("// %s \n\tif in.%v != 0 {\n\t\tres.%s.Int64 = in.%s\n\t\tres.%s.Valid = true\n\t}", field.Comment, camel, camel, camel, camel)
 			case "sql.NullInt32":

@@ -23,7 +23,7 @@ func (l *SysAdminUpdateLogic) SysAdminUpdate(in *adminclient.SysAdminUpdateReq) 
 		res.NickName = in.NickName
 	}
 	// 头像 
-	if len(in.Avatar) != 0 {
+	if len(in.Avatar) > 0 {
 		res.Avatar.String = in.Avatar
 		res.Avatar.Valid = true
 	}

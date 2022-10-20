@@ -55,9 +55,9 @@ func GetRpcData(table Table, dataType string) string {
 
 	if dataType == findListTemplateFile {
 		var model string
-		model = fmt.Sprintf("%s  %s = %v;  // %s", "int64", "Current", 1, "页码")
+		model = fmt.Sprintf("%s  %s = %v;  // %s", "int64", "current", 1, "页码")
 		modeldatas = append(modeldatas, model)
-		model = fmt.Sprintf("%s  %s = %v;  // %s", "int64", "PageSize", 2, "页数")
+		model = fmt.Sprintf("%s  %s = %v;  // %s", "int64", "page_size", 2, "页数")
 		modeldatas = append(modeldatas, model)
 		count = 2
 	}
@@ -91,7 +91,7 @@ func GetRpcData(table Table, dataType string) string {
 			}
 		case findListTemplateFile:
 			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" {
+				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "Sort" {
 				continue
 			}
 		case findDataTemplateFile:
