@@ -6,7 +6,7 @@
     }
   ],
   "paths": {
-    "/admin/sysAdmin/{id}": {
+    "/user/sysAdmin/{id}": {
       "delete": {
         "summary": "删除sysAdmin",
         "x-apifox-folder": "sysAdmin",
@@ -30,7 +30,7 @@
         ]
       }
     },
-    "/admin/sysAdminInfo": {
+    "/user/sysAdminInfo": {
       "get": {
         "summary": "根据ID查询sysAdmin",
         "x-apifox-folder": "sysAdmin",
@@ -54,7 +54,7 @@
         ]
       }
     },
-    "/admin/sysAdmin": {
+    "/user/sysAdmin": {
       "post": {
         "summary": "添加sysAdmin",
         "x-apifox-folder": "sysAdmin",

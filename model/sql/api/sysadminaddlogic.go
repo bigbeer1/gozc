@@ -2,7 +2,7 @@ func (l *SysAdminAddLogic) SysAdminAdd(req *types.SysAdminAddRequest) (*types.Re
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	_, err := l.svcCtx.AdminRpc.SysAdminAdd(l.ctx, &adminclient.SysAdminAddReq{
+	_, err := l.svcCtx.UserRpc.SysAdminAdd(l.ctx, &userclient.SysAdminAddReq{
 	    CreatedName:	 tokenData.NickName, // 创建人
 		Name:	 req.Name, // 用户名
 		NickName:	 req.NickName, // 姓名

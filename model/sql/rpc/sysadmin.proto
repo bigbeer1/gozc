@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package adminclient;
+package userclient;
 
-option go_package = "./adminclient";
+option go_package = "./userclient";
 
 //SysAdmin start-------------------
 
@@ -96,7 +96,7 @@ message SysAdminListData{
 
 //SysAdmin end---------------------
 
-service Admin {
+service User {
 
   rpc SysAdminAdd(SysAdminAddReq) returns(CommonResp);
   rpc SysAdminDelete(SysAdminDeleteReq) returns(CommonResp);

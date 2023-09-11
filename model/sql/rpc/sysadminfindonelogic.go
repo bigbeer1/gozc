@@ -1,8 +1,8 @@
-func (l *SysAdminFindOneLogic) SysAdminFindOne(in *adminclient.SysAdminFindOneReq) (*adminclient.SysAdminFindOneResp, error) {
+func (l *SysAdminFindOneLogic) SysAdminFindOne(in *userclient.SysAdminFindOneReq) (*userclient.SysAdminFindOneResp, error) {
 
 	res, err := l.svcCtx.SysAdminModel.FindOne(l.ctx,in.Id)
 	if err != nil {
-		if err == model.ErrNotFound {
+		if err == sqlc.ErrNotFound {
 			return nil, errors.New("SysAdmin没有该ID：" + in.Id)
 		}
 		return nil, err
@@ -14,7 +14,7 @@ func (l *SysAdminFindOneLogic) SysAdminFindOne(in *adminclient.SysAdminFindOneRe
 	}
     
 
-	return &adminclient.SysAdminFindOneResp{
+	return &userclient.SysAdminFindOneResp{
 		Id:	res.Id, //系统管理员ID
 		CreatedAt:	res.CreatedAt.UnixMilli(), //创建时间
 		UpdatedAt:	res.UpdatedAt.Time.UnixMilli(), //更新时间

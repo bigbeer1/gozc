@@ -1,4 +1,4 @@
-func (l *SysAdminAddLogic) SysAdminAdd(in *adminclient.SysAdminAddReq) (*adminclient.CommonResp, error) {
+func (l *SysAdminAddLogic) SysAdminAdd(in *userclient.SysAdminAddReq) (*userclient.CommonResp, error) {
 
 	_, err := l.svcCtx.SysAdminModel.Insert(l.ctx,&model.SysAdmin{
 		Id:           uuid.NewV4().String(),  // ID
@@ -16,5 +16,5 @@ func (l *SysAdminAddLogic) SysAdminAdd(in *adminclient.SysAdminAddReq) (*admincl
 		return nil, err
 	}
 
-	return &adminclient.CommonResp{}, nil
+	return &userclient.CommonResp{}, nil
 }

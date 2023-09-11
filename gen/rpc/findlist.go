@@ -32,7 +32,7 @@ func genFindList(table Table, modelName stringx.String) (string, error) {
 		deletedData = "whereBuilder = whereBuilder.Where(\"deleted_at is null\")"
 		deletedDataCount = "countBuilder = countBuilder.Where(\"deleted_at is null\")"
 	}
-	createdData := "whereBuilder = whereBuilder.OrderBy(\"created_at DESC\")"
+	createdData := "\twhereBuilder = whereBuilder.OrderBy(\"created_at DESC, id DESC\")"
 
 	camel := table.Name.ToCamel()
 	xmodelname := modelName.Lower()

@@ -1,9 +1,9 @@
-func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*adminclient.SysAdminListResp, error) {
+func (l *SysAdminListLogic) SysAdminList(in *userclient.SysAdminListReq) (*userclient.SysAdminListResp, error) {
 
   	whereBuilder := l.svcCtx.SysAdminModel.RowBuilder()
 
     whereBuilder = whereBuilder.Where("deleted_at is null")
-    whereBuilder = whereBuilder.OrderBy("created_at DESC")
+    	whereBuilder = whereBuilder.OrderBy("created_at DESC, id DESC")
 
     
 
@@ -108,9 +108,9 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
     	return nil, err
     }
 
-    var list []*adminclient.SysAdminListData
+    var list []*userclient.SysAdminListData
     for _, item := range all {
-    	list = append(list, &adminclient.SysAdminListData{
+    	list = append(list, &userclient.SysAdminListData{
     		Id:	item.Id, //系统管理员ID
 			CreatedAt:	item.CreatedAt.UnixMilli(), //创建时间
 			UpdatedAt:	item.UpdatedAt.Time.UnixMilli(), //更新时间
@@ -126,7 +126,7 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
     	})
     }
 
-    return &adminclient.SysAdminListResp{
+    return &userclient.SysAdminListResp{
     	Total: count,
     	List:  list,
     }, nil

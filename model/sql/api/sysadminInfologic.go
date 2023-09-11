@@ -2,7 +2,7 @@ func (l *SysAdminInfoLogic) SysAdminInfo(req *types.SysAdminInfoRequest) (*types
 	// 用户登录信息
 	tokenData := jwtx.ParseToken(l.ctx)
 
-	res, err := l.svcCtx.AdminRpc.SysAdminFindOne(l.ctx, &adminclient.SysAdminFindOneReq{
+	res, err := l.svcCtx.UserRpc.SysAdminFindOne(l.ctx, &userclient.SysAdminFindOneReq{
 		Id:	 req.Id, // 系统管理员ID
 	})
 	if err != nil {
