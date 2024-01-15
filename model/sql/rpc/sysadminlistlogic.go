@@ -1,4 +1,4 @@
-func (l *SysAdminListLogic) SysAdminList(in *userclient.SysAdminListReq) (*userclient.SysAdminListResp, error) {
+func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*adminclient.SysAdminListResp, error) {
 
   	whereBuilder := l.svcCtx.SysAdminModel.RowBuilder()
 
@@ -108,9 +108,9 @@ func (l *SysAdminListLogic) SysAdminList(in *userclient.SysAdminListReq) (*userc
     	return nil, err
     }
 
-    var list []*userclient.SysAdminListData
+    var list []*adminclient.SysAdminListData
     for _, item := range all {
-    	list = append(list, &userclient.SysAdminListData{
+    	list = append(list, &adminclient.SysAdminListData{
     		Id:	item.Id, //系统管理员ID
 			CreatedAt:	item.CreatedAt.UnixMilli(), //创建时间
 			UpdatedAt:	item.UpdatedAt.Time.UnixMilli(), //更新时间
@@ -126,7 +126,7 @@ func (l *SysAdminListLogic) SysAdminList(in *userclient.SysAdminListReq) (*userc
     	})
     }
 
-    return &userclient.SysAdminListResp{
+    return &adminclient.SysAdminListResp{
     	Total: count,
     	List:  list,
     }, nil

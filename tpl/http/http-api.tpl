@@ -1,5 +1,10 @@
 {
   "openapi": "3.0.1",
+  "info": {
+    "title": "",
+    "description": "",
+    "version": "1.0.0"
+  },
   "tags": [
     {
       "name": "{{.xfilename}}"
@@ -27,6 +32,15 @@
               "type": "{{.idType}}"
             }
           }
+        ],
+        "responses": {
+
+        },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
@@ -50,6 +64,15 @@
             "schema": {
               "type": "{{.idType}}"
             }
+          }
+        ],
+        "responses": {
+
+        },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
           }
         ]
       }
@@ -75,7 +98,16 @@
               }
             }
           }
-        }
+        },
+         "responses": {
+
+         },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       },
       "get": {
         "summary": "分页查询{{.xfilename}}",
@@ -88,6 +120,15 @@
         ],
         "parameters": [
           {{.Query}}
+        ],
+         "responses": {
+
+         },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "put": {
@@ -113,7 +154,16 @@
               }
             }
           }
-        }
+        },
+        "responses": {
+
+        },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     }
   },

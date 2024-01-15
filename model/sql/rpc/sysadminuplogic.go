@@ -1,4 +1,4 @@
-func (l *SysAdminUpdateLogic) SysAdminUpdate(in *userclient.SysAdminUpdateReq) (*userclient.CommonResp, error) {
+func (l *SysAdminUpdateLogic) SysAdminUpdate(in *adminclient.SysAdminUpdateReq) (*adminclient.CommonResp, error) {
 
 	res, err := l.svcCtx.SysAdminModel.FindOne(l.ctx,in.Id)
 	if err != nil {
@@ -54,6 +54,6 @@ func (l *SysAdminUpdateLogic) SysAdminUpdate(in *userclient.SysAdminUpdateReq) (
 	if err != nil {
 		return nil, err
 	}
-	return &userclient.CommonResp{}, nil
+	return &adminclient.CommonResp{}, nil
 
 }

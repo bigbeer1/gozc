@@ -1,12 +1,17 @@
 {
   "openapi": "3.0.1",
+  "info": {
+    "title": "",
+    "description": "",
+    "version": "1.0.0"
+  },
   "tags": [
     {
       "name": "sysAdmin"
     }
   ],
   "paths": {
-    "/user/sysAdmin/{id}": {
+    "/admin/sysAdmin/{id}": {
       "delete": {
         "summary": "删除sysAdmin",
         "x-apifox-folder": "sysAdmin",
@@ -27,10 +32,19 @@
               "type": "string"
             }
           }
+        ],
+        "responses": {
+
+        },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
-    "/user/sysAdminInfo": {
+    "/admin/sysAdminInfo": {
       "get": {
         "summary": "根据ID查询sysAdmin",
         "x-apifox-folder": "sysAdmin",
@@ -51,10 +65,19 @@
               "type": "string"
             }
           }
+        ],
+        "responses": {
+
+        },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       }
     },
-    "/user/sysAdmin": {
+    "/admin/sysAdmin": {
       "post": {
         "summary": "添加sysAdmin",
         "x-apifox-folder": "sysAdmin",
@@ -102,7 +125,16 @@
               }
             }
           }
-        }
+        },
+         "responses": {
+
+         },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       },
       "get": {
         "summary": "分页查询sysAdmin",
@@ -195,6 +227,15 @@
 			  "type": "integer"
 			}
 		  }
+        ],
+         "responses": {
+
+         },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
         ]
       },
       "put": {
@@ -251,7 +292,16 @@
               }
             }
           }
-        }
+        },
+        "responses": {
+
+        },
+        "x-run-in-apifox": "",
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
       }
     }
   },

@@ -52,25 +52,25 @@ type (
     group: sysAdmin
 )
 
-service User {
+service Admin {
 
     // 添加
     @handler SysAdminAdd
-    post /user/sysAdmin (SysAdminAddRequest) returns (Response)
+    post /admin/sysAdmin (SysAdminAddRequest) returns (Response)
 
     // 删除
     @handler SysAdminDel
-    delete /user/sysAdmin/:id (SysAdminDelRequest) returns (Response)
+    delete /admin/sysAdmin/:id (SysAdminDelRequest) returns (Response)
 
     // 更新
     @handler SysAdminUp
-    put /user/sysAdmin (SysAdminUpRequest) returns (Response)
+    put /admin/sysAdmin (SysAdminUpRequest) returns (Response)
 
     // 分页查询
     @handler SysAdminList
-    get /user/sysAdmin (SysAdminListRequest) returns (Response)
+    get /admin/sysAdmin (SysAdminListRequest) returns (Response)
 
     // 查询详细信息
     @handler SysAdminInfo
-    get /user/sysAdminInfo (SysAdminInfoRequest) returns (Response)
+    get /admin/sysAdminInfo (SysAdminInfoRequest) returns (Response)
 }

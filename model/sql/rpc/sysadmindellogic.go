@@ -1,4 +1,4 @@
-func (l *SysAdminDeleteLogic) SysAdminDelete(in *userclient.SysAdminDeleteReq) (*userclient.CommonResp, error) {
+func (l *SysAdminDeleteLogic) SysAdminDelete(in *adminclient.SysAdminDeleteReq) (*adminclient.CommonResp, error) {
 
 	res, err := l.svcCtx.SysAdminModel.FindOne(l.ctx,in.Id)
 	if err != nil {
@@ -24,5 +24,5 @@ func (l *SysAdminDeleteLogic) SysAdminDelete(in *userclient.SysAdminDeleteReq) (
 		return nil, err
 	}
 
-	return &userclient.CommonResp{}, nil
+	return &adminclient.CommonResp{}, nil
 }
