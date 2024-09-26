@@ -1,6 +1,4 @@
 func (l *SysAdminListLogic) SysAdminList(req *types.SysAdminListRequest) (*types.Response, error) {
-	// 用户登录信息
-	tokenData := jwtx.ParseToken(l.ctx)
 
 	all, err := l.svcCtx.AdminRpc.SysAdminList(l.ctx, &adminclient.SysAdminListReq{
 		Current:	 req.Current, // 页码

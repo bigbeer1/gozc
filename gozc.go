@@ -29,7 +29,7 @@ func main() {
 	}
 	app.Setup()
 
-	//os.Args = append(os.Args, "run", "--m=admin", "--sql=E:\\Gopath\\src\\gozc\\model\\sql\\sys_admin.sql")
+	os.Args = append(os.Args, "run", "--m=admin", "--sql=E:\\Gopath\\src\\gozc\\model\\sql\\sys_admin.sql")
 
 	if err := app.Run(os.Args); err != nil {
 		fmt.Println(err)
@@ -53,6 +53,7 @@ var runCmd = &cli.Command{
 			Value: "",
 		},
 	},
+
 	Before: func(cctx *cli.Context) error {
 		data := os.Getenv("GOZC_PATH")
 		if data == "" {
@@ -63,10 +64,13 @@ var runCmd = &cli.Command{
 	},
 	Action: func(cctx *cli.Context) error {
 		var srcPath string
+		// 拿sql文件地址
 		srcPath = cctx.String("sql")
 		if srcPath == "" {
 			return errors.New("请传入SQL文件路径地址--sql")
 		}
+
+		// 拿微服务名称
 		modelName := cctx.String("m")
 		if srcPath == "" {
 			return errors.New("请传入模型名称--m")
@@ -111,6 +115,7 @@ var runCmd = &cli.Command{
 	},
 }
 
+// 去生成API里的代码
 func CreateApiData(tables []*parser.Table, modelName, srcPath string) error {
 	// 生成API
 	apiData := make(map[string]*api.CodeTuple)
@@ -152,6 +157,7 @@ func CreateApiData(tables []*parser.Table, modelName, srcPath string) error {
 	return err
 }
 
+// 去生成RPC里的代码
 func CreateRpcData(tables []*parser.Table, modelName, srcPath string) error {
 	// 生成Rpc
 	rpcData := make(map[string]*rpc.CodeTuple)
@@ -193,6 +199,7 @@ func CreateRpcData(tables []*parser.Table, modelName, srcPath string) error {
 	return err
 }
 
+// 去生成SwaggerAPI 规范的东西
 func CreateHttpData(tables []*parser.Table, modelName, srcPath string) error {
 	// 生成Http
 	HttpData := make(map[string]*http.CodeTuple)

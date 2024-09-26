@@ -2,8 +2,8 @@ func (l *SysAdminUpdateLogic) SysAdminUpdate(in *adminclient.SysAdminUpdateReq) 
 
 	res, err := l.svcCtx.SysAdminModel.FindOne(l.ctx,in.Id)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
-			return nil, errors.New("SysAdmin没有该ID：" + in.Id)
+		if errors.Is(err, sqlc.ErrNotFound) {
+			return nil,fmt.Errorf("SysAdmin没有该ID: %v" , in.Id)
 		}
 		return nil, err
 	}

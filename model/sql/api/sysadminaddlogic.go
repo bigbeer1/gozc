@@ -1,6 +1,4 @@
 func (l *SysAdminAddLogic) SysAdminAdd(req *types.SysAdminAddRequest) (*types.Response, error) {
-	// 用户登录信息
-	tokenData := jwtx.ParseToken(l.ctx)
 
 	_, err := l.svcCtx.AdminRpc.SysAdminAdd(l.ctx, &adminclient.SysAdminAddReq{
 	    CreatedName:	 tokenData.NickName, // 创建人

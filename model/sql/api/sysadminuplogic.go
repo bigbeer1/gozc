@@ -1,6 +1,5 @@
 func (l *SysAdminUpLogic) SysAdminUp(req *types.SysAdminUpRequest) (*types.Response, error) {
-	// 用户登录信息
-	tokenData := jwtx.ParseToken(l.ctx)
+
 
 	_, err := l.svcCtx.AdminRpc.SysAdminUpdate(l.ctx, &adminclient.SysAdminUpdateReq{
 	    Id:	 req.Id, // 系统管理员ID

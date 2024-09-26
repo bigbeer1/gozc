@@ -32,7 +32,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	if deletedCount > 0 {
 		deletedData = "res.DeletedAt.Time = time.Now()\n\tres.DeletedAt.Valid = true\n\tres.DeletedName.String = in.DeletedName\n\tres.DeletedName.Valid = true"
 		delType = "Update(l.ctx,res)"
-		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, errors.New(\"%s该ID已被删除：\" + in.Id)\n\t}", camel)
+		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, fmt.Errorf(\"%s该ID已被删除：%s\",in.Id)\n\t}", camel, "%v")
 	}
 
 	xmodelname := modelName.Lower()

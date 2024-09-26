@@ -26,6 +26,7 @@ func genApi(table Table, pkgName stringx.String) (string, error) {
 	if err != nil {
 		return "", err
 	}
+
 	output, err := util.With("api").
 		Parse(text).
 		Execute(map[string]interface{}{

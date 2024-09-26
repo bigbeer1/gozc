@@ -2,15 +2,15 @@ func (l *SysAdminFindOneLogic) SysAdminFindOne(in *adminclient.SysAdminFindOneRe
 
 	res, err := l.svcCtx.SysAdminModel.FindOne(l.ctx,in.Id)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
-			return nil, errors.New("SysAdmin没有该ID：" + in.Id)
+		if  errors.Is(err, sqlc.ErrNotFound) {
+			return nil, fmt.Errorf("SysAdmin没有该ID:%v" ,in.Id)
 		}
 		return nil, err
 	}
 
     // 判断该数据是否被删除
 	if res.DeletedAt.Valid == true {
-		return nil, errors.New("SysAdmin该ID已被删除：" + in.Id)
+		return nil, fmt.Errorf("SysAdmin该ID已被删除：%v",in.Id)
 	}
     
 

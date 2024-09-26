@@ -57,7 +57,7 @@ func genFindOne(table Table, modelName stringx.String) (string, error) {
 	camel := table.Name.ToCamel()
 
 	if deletedCount > 0 {
-		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, errors.New(\"%s该ID已被删除：\" + in.Id)\n\t}", camel)
+		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, fmt.Errorf(\"%s该ID已被删除：%s\",in.Id)\n\t}", camel, "%v")
 	}
 
 	data := strings.Join(datas, "\n\t\t")
