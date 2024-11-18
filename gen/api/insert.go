@@ -12,12 +12,12 @@ func genInsert(table Table, modelName stringx.String) (string, error) {
 	datas := make([]string, 0)
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" || camel == "UpdatedName" || camel == "DeletedName" {
+		if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" || camel == "ModifiedUserUid" || camel == "DeletedName" {
 			continue
 		}
 		var model string
 		switch camel {
-		case "CreatedName":
+		case "CreateUserUid":
 			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, "NickName", field.Comment)
 		case "TenantId":
 			model = fmt.Sprintf("%s:\t tokenData.%s, // %s", camel, camel, field.Comment)

@@ -56,8 +56,8 @@ func GetHttpData(table Table, dataType string) string {
 		xcamel := util.SafeString(field.Name.Lower())
 		switch dataType {
 		case "add":
-			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
+			if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
 		case "Id":
@@ -69,8 +69,8 @@ func GetHttpData(table Table, dataType string) string {
 			modeldata := strings.Join(modeldatas, ",\n\t\t\t\t")
 			return modeldata
 		case "update":
-			if camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
+			if camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
 		default:
@@ -132,8 +132,8 @@ func GetHttpQueryData(table Table) string {
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
 		xcamel := util.SafeString(field.Name.Lower())
-		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-			camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" || camel == "Sort" {
+		if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+			camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "TenantId" || camel == "Sort" {
 			continue
 		}
 

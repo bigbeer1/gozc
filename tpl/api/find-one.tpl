@@ -1,6 +1,4 @@
 func (l *{{.filename}}InfoLogic) {{.filename}}Info(req *types.{{.filename}}InfoRequest) (*types.Response, error) {
-	// 用户登录信息
-	tokenData := jwtx.ParseToken(l.ctx)
 
 	res, err := l.svcCtx.{{.modelname}}Rpc.{{.filename}}FindOne(l.ctx, &{{.xmodelname}}client.{{.filename}}FindOneReq{
 		{{.data}}

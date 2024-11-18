@@ -2,8 +2,8 @@ func (l *{{.filename}}UpdateLogic) {{.filename}}Update(in *{{.xmodelname}}client
 
 	res, err := l.svcCtx.{{.filename}}Model.FindOne(l.ctx,in.Id)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
-			return nil, errors.New("{{.filename}}没有该ID：" + in.Id)
+		if errors.Is(err, sqlc.ErrNotFound) {
+			return nil,fmt.Errorf("{{.filename}}没有该ID: %v" , in.Id)
 		}
 		return nil, err
 	}
@@ -13,10 +13,10 @@ func (l *{{.filename}}UpdateLogic) {{.filename}}Update(in *{{.xmodelname}}client
 
 	{{.updateData}}
 
-	res.UpdatedName.String = in.UpdatedName
-	res.UpdatedName.Valid = true
-	res.UpdatedAt.Time = time.Now()
-	res.UpdatedAt.Valid = true
+	res.ModifiedUserUid.String = in.ModifiedUserUid
+	res.ModifiedUserUid.Valid = true
+	res.ModifiedTime.Time = time.Now()
+	res.ModifiedTime.Valid = true
 
 	err = l.svcCtx.{{.filename}}Model.Update(l.ctx,res)
 

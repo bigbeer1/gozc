@@ -27,7 +27,7 @@ func genFindOne(table Table, modelName stringx.String) (string, error) {
 
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		if camel == "DeletedAt" || camel == "DeletedName" {
+		if camel == "Deleted" || camel == "DeletedName" {
 			continue
 		}
 		var model string

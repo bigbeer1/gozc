@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+package userclient;
+
+option go_package = "./userclient";
+
+//SysTest start-------------------
+
+// SysTest 添加
+message SysTestAddReq{
+	string  name = 1;  // 名称
+	string  create_user_uid = 2;  // 创建者userUid
+}
+
+// SysTest 删除
+message SysTestDeleteReq{
+	int64   id = 1;  // 雪花算法ID
+}
+
+// SysTest 更新
+message SysTestUpdateReq{
+	int64   id = 1;  // 雪花算法ID
+	string  name = 2;  // 名称
+	string  modified_user_uid = 3;  // 修改者userUid
+}
+
+// SysTest 单个查询
+message SysTestFindOneReq{
+	int64   id = 1;  // 雪花算法ID
+}
+
+// SysTest 单个查询返回
+message SysTestFindOneResp{
+	int64   id = 1;  // 雪花算法ID
+	string  name = 2;  // 名称
+	string  create_user_uid = 3;  // 创建者userUid
+	int64   create_time = 4;  // 创建时间
+	string  modified_user_uid = 5;  // 修改者userUid
+	int64   modified_time = 6;  // 修改时间
+}
+
+
+// SysTest 分页查询
+message SysTestListReq{
+	int64  current = 1;  // 页码
+	int64  page_size = 2;  // 页数
+	string  name = 3;  // 名称
+}
+
+// SysTest 分页查询返回
+message SysTestListResp{
+	int64  total = 1;  // 总数
+	repeated  SysTestListData list = 2;  // 内容
+}
+
+// SysTest 列表信息
+message SysTestListData{
+	int64   id = 1;  // 雪花算法ID
+	string  name = 2;  // 名称
+	string  create_user_uid = 3;  // 创建者userUid
+	int64   create_time = 4;  // 创建时间
+	string  modified_user_uid = 5;  // 修改者userUid
+	int64   modified_time = 6;  // 修改时间
+}
+
+//SysTest end---------------------
+
+service User {
+
+  rpc SysTestAdd(SysTestAddReq) returns(CommonResp);
+  rpc SysTestDelete(SysTestDeleteReq) returns(CommonResp);
+  rpc SysTestUpdate(SysTestUpdateReq) returns(CommonResp);
+  rpc SysTestFindOne(SysTestFindOneReq) returns(SysTestFindOneResp);
+  rpc SysTestList(SysTestListReq) returns(SysTestListResp);
+
+}

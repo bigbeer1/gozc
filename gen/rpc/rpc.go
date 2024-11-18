@@ -67,8 +67,8 @@ func GetRpcData(table Table, dataType string) string {
 		lowerCamel := util.SafeString(field.Name.Lower())
 		switch dataType {
 		case insertTemplateFile:
-			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "UpdatedName" || camel == "DeletedName" {
+			if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "ModifiedUserUid" || camel == "DeletedName" {
 				continue
 			}
 		case deleteTemplateFile:
@@ -76,8 +76,8 @@ func GetRpcData(table Table, dataType string) string {
 				continue
 			}
 		case updateTemplateFile:
-			if camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "DeletedName" {
+			if camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "DeletedName" {
 				continue
 			}
 		case findOneTemplateFile:
@@ -85,17 +85,17 @@ func GetRpcData(table Table, dataType string) string {
 				continue
 			}
 		case findOneRespTemplateFile:
-			if camel == "DeletedAt" ||
+			if camel == "Deleted" ||
 				camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
 		case findListTemplateFile:
-			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "Sort" {
+			if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "Sort" {
 				continue
 			}
 		case findDataTemplateFile:
-			if camel == "DeletedAt" ||
+			if camel == "Deleted" ||
 				camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}

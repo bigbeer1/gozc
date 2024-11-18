@@ -17,7 +17,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
 		switch camel {
-		case "DeletedAt":
+		case "Deleted":
 			deletedCount++
 		case "TenantId":
 			tenantCount++
@@ -30,9 +30,10 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	camel := table.Name.ToCamel()
 
 	if deletedCount > 0 {
-		deletedData = "res.DeletedAt.Time = time.Now()\n\tres.DeletedAt.Valid = true\n\tres.DeletedName.String = in.DeletedName\n\tres.DeletedName.Valid = true"
+		deletedData = "res.Deleted = 1\n\tres.ModifiedUserUid.String = in.ModifiedUserUid\n\tres.ModifiedUserUid.Valid = true\n\tres.ModifiedTime.Time = time.Now()\n\tres.ModifiedTime.Valid = true"
+
 		delType = "Update(l.ctx,res)"
-		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.DeletedAt.Valid == true {\n\t\treturn nil, fmt.Errorf(\"%s该ID已被删除：%s\",in.Id)\n\t}", camel, "%v")
+		deletedAtData = fmt.Sprintf("// 判断该数据是否被删除\n\tif res.Deleted == 1 {\n\t\treturn nil, fmt.Errorf(\"%s该ID已被删除：%s\",in.Id)\n\t}", camel, "%v")
 	}
 
 	xmodelname := modelName.Lower()

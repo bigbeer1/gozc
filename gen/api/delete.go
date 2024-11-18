@@ -12,7 +12,7 @@ func genDelete(table Table, modelName stringx.String) (string, error) {
 	datas := make([]string, 0)
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		if camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" || camel == "CreatedName" || camel == "UpdatedName" {
+		if camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" || camel == "CreateUserUid" || camel == "ModifiedUserUid" {
 			continue
 		}
 		var model string

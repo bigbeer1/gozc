@@ -12,7 +12,8 @@ func genInsert(table Table, modelName stringx.String) (string, error) {
 	datas := make([]string, 0)
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
-		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" || camel == "UpdatedName" || camel == "DeletedName" {
+		if camel == "Id" || camel == "CreatedAt" || camel == "CreateTime" || camel == "UpdatedAt" || camel == "ModifiedTime" ||
+			camel == "UpdatedName" || camel == "ModifiedUserUid" || camel == "Deleted" {
 			continue
 		}
 		var model string

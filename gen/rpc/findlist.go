@@ -24,15 +24,15 @@ func genFindList(table Table, modelName stringx.String) (string, error) {
 	findListData := getFindListData(table)
 
 	if tenantCount > 0 {
-		tenantData = "whereBuilder = whereBuilder.Where(squirrel.Eq{\n  \t\t\"tenant_id\":     in.TenantId,\n  \t})"
-		tenantDataCount = "countBuilder = countBuilder.Where(squirrel.Eq{\n    \t\"tenant_id\": in.TenantId,\n  \t})"
+		tenantData = "whereBuilder = whereBuilder.Where(squirrel.Eq{\n\t\t\"tenant_id\": in.TenantId,\n\t})"
+		tenantDataCount = "countBuilder = countBuilder.Where(squirrel.Eq{\n\t\t\"tenant_id\": in.TenantId,\n\t})"
 	}
 
 	if deletedCount > 0 {
-		deletedData = "whereBuilder = whereBuilder.Where(\"deleted_at is null\")"
-		deletedDataCount = "countBuilder = countBuilder.Where(\"deleted_at is null\")"
+		deletedData = "whereBuilder = whereBuilder.Where(squirrel.Eq{\"deleted\": 0,})\n\t"
+		deletedDataCount = "countBuilder = countBuilder.Where(squirrel.Eq{\"deleted\": 0,})"
 	}
-	createdData := "\twhereBuilder = whereBuilder.OrderBy(\"created_at DESC, id DESC\")"
+	createdData := "whereBuilder = whereBuilder.OrderBy(\"create_time DESC, id DESC\")"
 
 	camel := table.Name.ToCamel()
 	xmodelname := modelName.Lower()
@@ -66,7 +66,8 @@ func getListData(table Table, builderName string) (data string, tenantCount, del
 	for _, field := range table.Fields {
 		camel := util.SafeString(field.Name.ToCamel())
 		xcamel := util.SafeString(field.Name.Lower())
-		if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" {
+		if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" ||
+			camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" {
 			continue
 		}
 		var model string
@@ -74,7 +75,7 @@ func getListData(table Table, builderName string) (data string, tenantCount, del
 		case "TenantId":
 			tenantCount++
 			continue
-		case "DeletedAt":
+		case "Deleted":
 			deletedCount++
 			continue
 		case "Sort":
@@ -124,7 +125,7 @@ func getFindListData(table Table) string {
 		switch camel {
 		case "TenantId":
 			continue
-		case "DeletedAt":
+		case "Deleted":
 			continue
 		default:
 			switch field.DataType {

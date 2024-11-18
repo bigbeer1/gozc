@@ -7,29 +7,29 @@
   },
   "tags": [
     {
-      "name": "sysAdmin"
+      "name": "sysTest"
     }
   ],
   "paths": {
-    "/admin/sysAdmin/{id}": {
+    "/user/sysTest/{id}": {
       "delete": {
-        "summary": "删除sysAdmin",
-        "x-apifox-folder": "sysAdmin",
+        "summary": "删除sysTest",
+        "x-apifox-folder": "sysTest",
         "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "sysAdmin"
+          "sysTest"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "系统管理员ID",
+            "description": "雪花算法ID",
             "required": true,
             "example": "",
             "schema": {
-              "type": "string"
+              "type": "int64"
             }
           }
         ],
@@ -44,25 +44,25 @@
         ]
       }
     },
-    "/admin/sysAdminInfo": {
+    "/user/sysTestInfo": {
       "get": {
-        "summary": "根据ID查询sysAdmin",
-        "x-apifox-folder": "sysAdmin",
+        "summary": "根据ID查询sysTest",
+        "x-apifox-folder": "sysTest",
         "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "sysAdmin"
+          "sysTest"
         ],
         "parameters": [
           {
             "name": "id",
             "in": "query",
-            "description": "系统管理员ID",
+            "description": "雪花算法ID",
             "required": false,
             "example": "",
             "schema": {
-              "type": "string"
+              "type": "int64"
             }
           }
         ],
@@ -77,15 +77,15 @@
         ]
       }
     },
-    "/admin/sysAdmin": {
+    "/user/sysTest": {
       "post": {
-        "summary": "添加sysAdmin",
-        "x-apifox-folder": "sysAdmin",
+        "summary": "添加sysTest",
+        "x-apifox-folder": "sysTest",
         "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "sysAdmin"
+          "sysTest"
         ],
         "requestBody": {
           "content": {
@@ -95,31 +95,7 @@
                 "properties": {
                   "name": {
 					"type": "string",
-					"description": "用户名"
-				  },
-				  "nick_name": {
-					"type": "string",
-					"description": "姓名"
-				  },
-				  "avatar": {
-					"type": "string",
-					"description": "头像"
-				  },
-				  "password": {
-					"type": "string",
-					"description": "密码"
-				  },
-				  "email": {
-					"type": "string",
-					"description": "邮箱"
-				  },
-				  "telephone": {
-					"type": "string",
-					"description": "手机号"
-				  },
-				  "state": {
-					"type": "integer",
-					"description": "状态"
+					"description": "名称"
 				  }
                 }
               }
@@ -137,13 +113,13 @@
         ]
       },
       "get": {
-        "summary": "分页查询sysAdmin",
-        "x-apifox-folder": "sysAdmin",
+        "summary": "分页查询sysTest",
+        "x-apifox-folder": "sysTest",
         "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "sysAdmin"
+          "sysTest"
         ],
         "parameters": [
           {
@@ -167,64 +143,10 @@
 		  {
 			"name": "name",
 			"in": "query",
-			"description": "用户名",
+			"description": "名称",
 			"required": false,
 			"schema": {
 			  "type": "string"
-			}
-		  },
-		  {
-			"name": "nick_name",
-			"in": "query",
-			"description": "姓名",
-			"required": false,
-			"schema": {
-			  "type": "string"
-			}
-		  },
-		  {
-			"name": "avatar",
-			"in": "query",
-			"description": "头像",
-			"required": false,
-			"schema": {
-			  "type": "string"
-			}
-		  },
-		  {
-			"name": "password",
-			"in": "query",
-			"description": "密码",
-			"required": false,
-			"schema": {
-			  "type": "string"
-			}
-		  },
-		  {
-			"name": "email",
-			"in": "query",
-			"description": "邮箱",
-			"required": false,
-			"schema": {
-			  "type": "string"
-			}
-		  },
-		  {
-			"name": "telephone",
-			"in": "query",
-			"description": "手机号",
-			"required": false,
-			"schema": {
-			  "type": "string"
-			}
-		  },
-		  {
-			"name": "state",
-			"in": "query",
-			"description": "状态",
-			"required": false,
-			"schema": {
-			  "type": "integer"
 			}
 		  }
         ],
@@ -239,13 +161,13 @@
         ]
       },
       "put": {
-        "summary": "修改sysAdmin",
-        "x-apifox-folder": "sysAdmin",
+        "summary": "修改sysTest",
+        "x-apifox-folder": "sysTest",
         "x-apifox-status": "developing",
         "deprecated": false,
         "description": "",
         "tags": [
-          "sysAdmin"
+          "sysTest"
         ],
         "requestBody": {
           "content": {
@@ -254,36 +176,12 @@
                 "type": "object",
                 "properties": {
                    "id": {
-					"type": "string",
-					"description": "系统管理员ID"
+					"type": "integer",
+					"description": "雪花算法ID"
 				  },
 				  "name": {
 					"type": "string",
-					"description": "用户名"
-				  },
-				  "nick_name": {
-					"type": "string",
-					"description": "姓名"
-				  },
-				  "avatar": {
-					"type": "string",
-					"description": "头像"
-				  },
-				  "password": {
-					"type": "string",
-					"description": "密码"
-				  },
-				  "email": {
-					"type": "string",
-					"description": "邮箱"
-				  },
-				  "telephone": {
-					"type": "string",
-					"description": "手机号"
-				  },
-				  "state": {
-					"type": "integer",
-					"description": "状态"
+					"description": "名称"
 				  }
                 },
                 "required": [

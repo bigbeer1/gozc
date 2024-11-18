@@ -72,15 +72,15 @@ func GetApiData(table Table, dataType string) string {
 		camel := util.SafeString(field.Name.ToCamel())
 		switch dataType {
 		case findListTemplateFile:
-			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" || camel == "Sort" {
+			if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "TenantId" || camel == "Sort" {
 				continue
 			}
 			reqTypeData = field.Name.Source() + ",optional"
 			reqTypeDataInt = field.Name.Source() + ",default=99,optional"
 		case insertTemplateFile:
-			if camel == "Id" || camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
+			if camel == "Id" || camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
 			reqTypeData = field.Name.Source() + ",optional"
@@ -93,8 +93,8 @@ func GetApiData(table Table, dataType string) string {
 			reqTypeDataInt = field.Name.Source()
 
 		case updateTemplateFile:
-			if camel == "CreatedAt" || camel == "UpdatedAt" || camel == "DeletedAt" ||
-				camel == "CreatedName" || camel == "UpdatedName" || camel == "DeletedName" || camel == "TenantId" {
+			if camel == "CreateTime" || camel == "ModifiedTime" || camel == "Deleted" ||
+				camel == "CreateUserUid" || camel == "ModifiedUserUid" || camel == "DeletedName" || camel == "TenantId" {
 				continue
 			}
 			if camel != "Id" {
