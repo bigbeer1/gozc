@@ -1,7 +1,7 @@
 func (l *SysAdminAddLogic) SysAdminAdd(in *adminclient.SysAdminAddReq) (*adminclient.CommonResp, error) {
 
 	_, err := l.svcCtx.SysAdminModel.Insert(l.ctx,&model.SysAdmin{
-		Id:           uuid.NewV4().String(),  // ID
+		Id:           uuid.NewString(),  // ID
 		CreatedAt:    time.Now(), // 创建时间
         CreatedName:	 in.CreatedName, // 创建人
 		Name:	 in.Name, // 用户名
@@ -12,6 +12,7 @@ func (l *SysAdminAddLogic) SysAdminAdd(in *adminclient.SysAdminAddReq) (*admincl
 		Telephone:	 in.Telephone, // 手机号
 		State:	 in.State, // 状态
 	})
+
 	if err != nil {
 		return nil, err
 	}

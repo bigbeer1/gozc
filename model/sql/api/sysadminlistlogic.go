@@ -1,4 +1,6 @@
-func (l *SysAdminListLogic) SysAdminList(req *types.SysAdminListRequest) (*types.Response, error) {
+func (l *SysAdminListLogic) SysAdminList(req *types.SysAdminListRequest) (resp *types.Response, err error) {
+	// 用户登录信息
+	tokenData := jwtx.ParseToken(l.ctx)
 
 	all, err := l.svcCtx.AdminRpc.SysAdminList(l.ctx, &adminclient.SysAdminListReq{
 		Current:	 req.Current, // 页码
@@ -11,8 +13,9 @@ func (l *SysAdminListLogic) SysAdminList(req *types.SysAdminListRequest) (*types
 		Telephone:	 req.Telephone, // 手机号
 		State:	 req.State, // 状态
 	})
+
 	if err != nil {
-		return nil, common.NewDefaultError(err.Error())
+		return nil, err
 	}
 	
 	var result SysAdminListResp

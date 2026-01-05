@@ -30,21 +30,21 @@ func genFindOne(table Table, modelName stringx.String) (string, error) {
 		default:
 			switch field.DataType {
 			case "sql.NullString":
-				model = fmt.Sprintf("%s:\tres.%s.String, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.String, // %s", camel, camel, field.Comment)
 			case "sql.NullInt64":
-				model = fmt.Sprintf("%s:\tres.%s.Int64, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.Int64, // %s", camel, camel, field.Comment)
 			case "sql.NullInt32":
-				model = fmt.Sprintf("%s:\tres.%s.Int32, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.Int32, // %s", camel, camel, field.Comment)
 			case "sql.NullFloat64":
-				model = fmt.Sprintf("%s:\tres.%s.Float64, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.Float64, // %s", camel, camel, field.Comment)
 			case "sql.NullFloat32":
-				model = fmt.Sprintf("%s:\tres.%s.Float32, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.Float32, // %s", camel, camel, field.Comment)
 			case "sql.NullTime":
-				model = fmt.Sprintf("%s:\tres.%s.Time.UnixMilli(), //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.Time.UnixMilli(), // %s", camel, camel, field.Comment)
 			case "time.Time":
-				model = fmt.Sprintf("%s:\tres.%s.UnixMilli(), //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s.UnixMilli(), // %s", camel, camel, field.Comment)
 			default:
-				model = fmt.Sprintf("%s:\tres.%s, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\tres.%s, // %s", camel, camel, field.Comment)
 			}
 		}
 

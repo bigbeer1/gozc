@@ -2,8 +2,8 @@ func (l *SysAdminDeleteLogic) SysAdminDelete(in *adminclient.SysAdminDeleteReq) 
 
 	res, err := l.svcCtx.SysAdminModel.FindOne(l.ctx,in.Id)
 	if err != nil {
-		if errors.Is(err, sqlc.ErrNotFound) {
-			return nil, fmt.Errorf("SysAdmin没有该ID:%v" ,in.Id)
+		if errors.Is(err,sqlc.ErrNotFound) {
+			return nil, fmt.Errorf("SysAdmin没有该ID: %s", in.Id)
 		}
 		return nil, err
 	}

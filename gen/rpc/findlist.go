@@ -32,7 +32,7 @@ func genFindList(table Table, modelName stringx.String) (string, error) {
 		deletedData = "whereBuilder = whereBuilder.Where(\"deleted_at is null\")"
 		deletedDataCount = "countBuilder = countBuilder.Where(\"deleted_at is null\")"
 	}
-	createdData := "\twhereBuilder = whereBuilder.OrderBy(\"created_at DESC, id DESC\")"
+	createdData := "whereBuilder = whereBuilder.OrderBy(\"created_at DESC, id DESC\")"
 
 	camel := table.Name.ToCamel()
 	xmodelname := modelName.Lower()
@@ -129,21 +129,21 @@ func getFindListData(table Table) string {
 		default:
 			switch field.DataType {
 			case "sql.NullString":
-				model = fmt.Sprintf("%s:\titem.%s.String, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.String, // %s", camel, camel, field.Comment)
 			case "sql.NullInt64":
-				model = fmt.Sprintf("%s:\titem.%s.Int64, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.Int64, // %s", camel, camel, field.Comment)
 			case "sql.NullInt32":
-				model = fmt.Sprintf("%s:\titem.%s.Int32, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.Int32, // %s", camel, camel, field.Comment)
 			case "sql.NullFloat64":
-				model = fmt.Sprintf("%s:\titem.%s.Float64, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.Float64, // %s", camel, camel, field.Comment)
 			case "sql.NullFloat32":
-				model = fmt.Sprintf("%s:\titem.%s.Float32, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.Float32, // %s", camel, camel, field.Comment)
 			case "sql.NullTime":
-				model = fmt.Sprintf("%s:\titem.%s.Time.UnixMilli(), //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.Time.UnixMilli(), // %s", camel, camel, field.Comment)
 			case "time.Time":
-				model = fmt.Sprintf("%s:\titem.%s.UnixMilli(), //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s.UnixMilli(), // %s", camel, camel, field.Comment)
 			default:
-				model = fmt.Sprintf("%s:\titem.%s, //%s", camel, camel, field.Comment)
+				model = fmt.Sprintf("%s:\titem.%s, // %s", camel, camel, field.Comment)
 			}
 		}
 

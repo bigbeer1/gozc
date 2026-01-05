@@ -1,10 +1,13 @@
-func (l *SysAdminInfoLogic) SysAdminInfo(req *types.SysAdminInfoRequest) (*types.Response, error) {
+func (l *SysAdminInfoLogic) SysAdminInfo(req *types.SysAdminInfoRequest) (resp *types.Response, err error) {
+	// 用户登录信息
+	tokenData := jwtx.ParseToken(l.ctx)
 
 	res, err := l.svcCtx.AdminRpc.SysAdminFindOne(l.ctx, &adminclient.SysAdminFindOneReq{
 		Id:	 req.Id, // 系统管理员ID
 	})
+
 	if err != nil {
-		return nil, common.NewDefaultError(err.Error())
+		return nil, err
 	}
 	
 	var result SysAdminFindOneResp

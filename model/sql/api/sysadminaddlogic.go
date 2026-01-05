@@ -1,4 +1,6 @@
-func (l *SysAdminAddLogic) SysAdminAdd(req *types.SysAdminAddRequest) (*types.Response, error) {
+func (l *SysAdminAddLogic) SysAdminAdd(req *types.SysAdminAddRequest) (resp *types.Response, err error) {
+	// 用户登录信息
+	tokenData := jwtx.ParseToken(l.ctx)
 
 	_, err := l.svcCtx.AdminRpc.SysAdminAdd(l.ctx, &adminclient.SysAdminAddReq{
 	    CreatedName:	 tokenData.NickName, // 创建人
@@ -10,9 +12,11 @@ func (l *SysAdminAddLogic) SysAdminAdd(req *types.SysAdminAddRequest) (*types.Re
 		Telephone:	 req.Telephone, // 手机号
 		State:	 req.State, // 状态
 	})
+
 	if err != nil {
-		return nil, common.NewDefaultError(err.Error())
+		return nil, err
 	}
+
 	return &types.Response{
 		Code: 0,
 		Msg:  msg.Success,

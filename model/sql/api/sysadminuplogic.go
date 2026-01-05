@@ -1,5 +1,6 @@
-func (l *SysAdminUpLogic) SysAdminUp(req *types.SysAdminUpRequest) (*types.Response, error) {
-
+func (l *SysAdminUpLogic) SysAdminUp(req *types.SysAdminUpRequest) (resp *types.Response, err error) {
+	// 用户登录信息
+	tokenData := jwtx.ParseToken(l.ctx)
 
 	_, err := l.svcCtx.AdminRpc.SysAdminUpdate(l.ctx, &adminclient.SysAdminUpdateReq{
 	    Id:	 req.Id, // 系统管理员ID
@@ -12,9 +13,11 @@ func (l *SysAdminUpLogic) SysAdminUp(req *types.SysAdminUpRequest) (*types.Respo
 		Telephone:	 req.Telephone, // 手机号
 		State:	 req.State, // 状态
 	})
+
 	if err != nil {
-		return nil, common.NewDefaultError(err.Error())
+		return nil, err
 	}
+
 	return &types.Response{
 		Code: 0,
 		Msg:  msg.Success,

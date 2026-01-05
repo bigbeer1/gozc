@@ -2,8 +2,8 @@ func (l *{{.filename}}DeleteLogic) {{.filename}}Delete(in *{{.xmodelname}}client
 
 	res, err := l.svcCtx.{{.filename}}Model.FindOne(l.ctx,in.Id)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
-			return nil, errors.New("{{.filename}}没有该ID：" + in.Id)
+		if errors.Is(err,sqlc.ErrNotFound) {
+			return nil, fmt.Errorf("{{.filename}}没有该ID: %s", in.Id)
 		}
 		return nil, err
 	}

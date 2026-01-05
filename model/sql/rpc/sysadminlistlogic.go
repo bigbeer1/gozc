@@ -3,7 +3,7 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
   	whereBuilder := l.svcCtx.SysAdminModel.RowBuilder()
 
     whereBuilder = whereBuilder.Where("deleted_at is null")
-    	whereBuilder = whereBuilder.OrderBy("created_at DESC, id DESC")
+    whereBuilder = whereBuilder.OrderBy("created_at DESC, id DESC")
 
     
 
@@ -103,7 +103,7 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
 			"state ": in.State,
 		})
 	}
-    count, err := l.svcCtx.SysAdminModel.FindCount(l.ctx, countBuilder)
+    count, err := l.svcCtx.SysAdminModel.Count(l.ctx, countBuilder)
     if err != nil {
     	return nil, err
     }
@@ -111,18 +111,18 @@ func (l *SysAdminListLogic) SysAdminList(in *adminclient.SysAdminListReq) (*admi
     var list []*adminclient.SysAdminListData
     for _, item := range all {
     	list = append(list, &adminclient.SysAdminListData{
-    		Id:	item.Id, //系统管理员ID
-			CreatedAt:	item.CreatedAt.UnixMilli(), //创建时间
-			UpdatedAt:	item.UpdatedAt.Time.UnixMilli(), //更新时间
-			CreatedName:	item.CreatedName, //创建人
-			UpdatedName:	item.UpdatedName.String, //更新人
-			Name:	item.Name, //用户名
-			NickName:	item.NickName, //姓名
-			Avatar:	item.Avatar.String, //头像
-			Password:	item.Password, //密码
-			Email:	item.Email, //邮箱
-			Telephone:	item.Telephone, //手机号
-			State:	item.State, //状态
+    		Id:	item.Id, // 系统管理员ID
+			CreatedAt:	item.CreatedAt.UnixMilli(), // 创建时间
+			UpdatedAt:	item.UpdatedAt.Time.UnixMilli(), // 更新时间
+			CreatedName:	item.CreatedName, // 创建人
+			UpdatedName:	item.UpdatedName.String, // 更新人
+			Name:	item.Name, // 用户名
+			NickName:	item.NickName, // 姓名
+			Avatar:	item.Avatar.String, // 头像
+			Password:	item.Password, // 密码
+			Email:	item.Email, // 邮箱
+			Telephone:	item.Telephone, // 手机号
+			State:	item.State, // 状态
     	})
     }
 

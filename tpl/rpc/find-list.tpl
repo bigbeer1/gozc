@@ -21,7 +21,7 @@ func (l *{{.filename}}ListLogic) {{.filename}}List(in *{{.xmodelname}}client.{{.
     {{.countTenant}}
 
     {{.countData}}
-    count, err := l.svcCtx.{{.filename}}Model.FindCount(l.ctx, countBuilder)
+    count, err := l.svcCtx.{{.filename}}Model.Count(l.ctx, countBuilder)
     if err != nil {
     	return nil, err
     }
